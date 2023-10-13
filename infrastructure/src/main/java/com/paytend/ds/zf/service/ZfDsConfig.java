@@ -1,7 +1,6 @@
 package com.paytend.ds.zf.service;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +14,6 @@ import javax.annotation.Resource;
 @Component
 @ConfigurationProperties(prefix = "ds.zf")
 public class ZfDsConfig {
-
-
     private String supportedVersionUrl;
     private String merNo;
     private String publicKey;

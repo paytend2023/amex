@@ -1,5 +1,6 @@
 package com.paytend.amex.api;
 
+import cn.hutool.json.JSONUtil;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
 import com.paytend.amex.facade.tx.dto.CommonRsp;
@@ -28,7 +29,9 @@ public class DsController {
 
     @PostMapping(path = "supportedVersion")
     public CommonRsp<SupportedVersionRspDto> supportedVersion(@RequestBody SupportedVersionReqDto versionReqDto) {
+        log.info("req:{}", versionReqDto);
         SupportedVersionRspDto rsp = dsService.supportedVersion(versionReqDto);
+        log.info("rsp:{}", JSONUtil.toJsonStr(CommonRsp.OK(rsp)));
         return CommonRsp.OK(rsp);
     }
 

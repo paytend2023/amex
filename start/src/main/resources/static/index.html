@@ -4,32 +4,72 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
+
     <script type="text/javascript">
 
-        function test() {
-            var req = {cardNo: "375987000169800", notificationURL: "http://www.baidu.com"}
-            $.post("/ds/supportedVersion", req, function (ret) {
-                alert(ret)
+
+        function getFormData(form) {
+            var formData = form.serializeArray()
+            var jsonData = {}
+            $.each(formData, function () {
+                if (jsonData[this.name]) {
+                    if (!jsonData[this.name].push) {
+                        jsonData[this.name] = [jsonData[this.name]]
+                    } else {
+                        jsonData[this.name].push(this.value || "")
+                    }
+                } else {
+                    jsonData[this.name] = this.value || ""
+                }
+            })
+            return jsonData
+        }
+
+
+        function request(form, callback) {
+            let formData = getFormData(form)
+            console.log(formData)
+            $.ajax({
+                method: "POST",
+                url: "/ds/supportedVersion",
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                dataType: "text"
+            }).done(function (r) {
+                console.log(r)
+                if (callback) {
+                    callback(r)
+                }
             });
         }
 
+        function test() {
+            request($("#form1"), alert)
+        }
 
     </script>
 </head>
 <body>
-<h2 th:text="${message}">xxxxxx bbb</h2>
+<h2></h2>
 
-<div>
-    <table>
-        <thead>
-        </thead>
-        <tr>
-            <td> 测试b aabb</td>
-        </tr>
-        <tr>
-            <td><input onclick="test();" type="button" value="test"></td>
-        </tr>
-    </table>
+<div class="container">
+    <form name="form1" id="form1">
+        <div class="mb-3 mt-3">
+            <label class="form-label">卡号</label>
+            <label>
+                <input type="text" class="form-control" placeholder="卡号" name="cardNo" value="375987000169792">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">密码：</label>
+            <label>
+                <input type="text" class="form-control" placeholder="通知地址" name="notificationURL"
+                       value="http://www.baidu.com">
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="test();return false;">提交</button>
+    </form>
 </div>
 
 </body>

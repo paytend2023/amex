@@ -32,6 +32,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
 
 
     public RemoteDsServiceImpl(ZfDsConfig config) {
+        log.info("init config:{}", config);
         this.merNo = config.getMerNo();
         this.supportedVersionUrl = config.getSupportedVersionUrl();
         this.publicKey = config.getPublicKey();
@@ -41,7 +42,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     public SupportedVersionRspDto doSupportedVersion(SupportedVersionReqDto req) {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
-        String str =  JSONUtil.toJsonStr(req);
+        String str = JSONUtil.toJsonStr(req);
         String reqStr = null;
         try {
             reqStr = RSAUtils.encrypt(str, RSAUtils.getPublicKey(publicKey));
@@ -56,7 +57,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
 
     private static String send(String url, String body, Map<String, String> headers) {
         // 创建请求对象
-        log.info("req:{}", body);
+        log.info("req:{},header:{}", body, headers);
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);
         Request request = new Request.Builder()
                 .url(url)
