@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.paytend.amex.facade.tx.dto.TxHeader;
 import com.paytend.amex.facade.tx.dto.req.Authorization;
 import com.paytend.amex.facade.tx.dto.rsp.AuthorizationRsp;
-import com.paytend.amex.service.SafeKeyService;
+import com.paytend.amex.biz.SafeKeyCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,8 +31,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.HashMap;
-
 import static org.mockito.ArgumentMatchers.any;
 
 
@@ -46,7 +44,7 @@ import static org.mockito.ArgumentMatchers.any;
 class TxControllerTest {
 
     @Mock
-    public SafeKeyService safeKeyService;
+    public SafeKeyCommandService safeKeyCommandService;
 
     @InjectMocks
     public TxController txController;
@@ -54,7 +52,7 @@ class TxControllerTest {
     @Test
     public void auth() {
         Authorization authorization = new Authorization();
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TxController(safeKeyService)).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TxController(safeKeyCommandService)).build();
         MvcResult mvcResult = null;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("origin", "Paytend");
@@ -66,7 +64,7 @@ class TxControllerTest {
 
             authorization.setAcqInstCtryCd("123");
 
-            Mockito.when(safeKeyService.auth(any(Authorization.class), any(TxHeader.class))).thenReturn(new AuthorizationRsp());
+            Mockito.when(safeKeyCommandService.auth(any(Authorization.class), any(TxHeader.class))).thenReturn(new AuthorizationRsp());
 
             mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/tx/auth")
                             .contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +96,7 @@ class TxControllerTest {
         String jsonString = "{\"msgTypId\":\"1100\",\"cardNbr\":\"374500261001009\",\"transProcCd\":\"004000\",\"cardExprDt\":\"2501\",\"acqInstCtryCd\":\"276\",\"pointOfServiceData\":{\"cardDataInpCpblCd\":\"1\",\"cmauthnCpblCd\":\"6\",\"cardCptrCpblCd\":\"0\",\"oprEnvirCd\":\"0\",\"cmpresentCd\":\"1\",\"cardPresentCd\":\"0\",\"cardDataInpModeCd\":\"1\",\"cmauthnMthdCd\":\"0\",\"cmauthnEnttyCd\":\"0\",\"cardDataOpCpblCd\":\"0\",\"trmnlOpCpblCd\":\"1\",\"pincptrCpblCd\":\"0\"},\"funcCd\":\"100\",\"msgRsnCd\":\"1900\",\"merCtgyCd\":\"4111\",\"rtrvRefNbr\":\"230913123622\",\"merTrmnlId\":\"00000001\",\"cardAcceptorDetail\":{\"cardAcptNm\":\"PAYTEND EUROPE UAB\",\"cardAcptStreetNm\":\"Vilnius City sav\",\"cardAcptCityNm\":\"Vilnius\",\"cardAcptCtryCd\":\"440\",\"cardAcptRgnCd\":\"58\",\"cardAcptPostCd\":\"01113\"},\"transCurrCd\":\"978\",\"acptEnvData\":{\"psd2Exemptions\":{\"euPsd2SecCorpPayInd\":\"0\",\"authOutageInd\":\"0\"},\"initPartyInd\":\"1\"},\"transAmt\":\"1600\",\"merSysTraceAudNbr\":\"300841\",\"transTs\":\"230913123622\",\"cardAcceptorIdentification\":{\"merId\":\"8127921740\"},\"additionalDataNational\":{\"cardNotPresentData\":{\"custEmailAddr\":\"king.gu@gmail.com\",\"custHostServerNm\":\"www.baidu.com\",\"custBrowserTypDescTxt\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\",\"shipToCtryCd\":\"440\",\"shipMthdCd\":\"01\",\"merSKUNbr\":\"TKDC315U\",\"custIPAddr\":\"127.142.5.56\",\"custIdPhoneNbr\":\"13651654626\",\"callTypId\":\"61\"}},\"secureAuthenticationSafeKey\":{\"scndIdCd\":\"ASK\",\"elecComrceInd\":\"05\",\"aesktransId\":\"3132333435363738393031323334353637383930\",\"amexExpVerificationValTxt\":\"0000010567123487637946538663470000000000\"}}";
 
         Authorization authorization = mapper.readValue(jsonString, Authorization.class);
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TxController(safeKeyService)).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TxController(safeKeyCommandService)).build();
 
         MvcResult mvcResult = null;
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -109,7 +107,7 @@ class TxControllerTest {
 
 
         try {
-            Mockito.when(safeKeyService.auth(any(Authorization.class), any(TxHeader.class))).thenReturn(new AuthorizationRsp());
+            Mockito.when(safeKeyCommandService.auth(any(Authorization.class), any(TxHeader.class))).thenReturn(new AuthorizationRsp());
             mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/tx/auth")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON)

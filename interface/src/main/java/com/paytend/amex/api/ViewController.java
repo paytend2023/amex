@@ -7,9 +7,8 @@ import com.paytend.amex.api.model.NotifyVo;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
 import com.paytend.amex.facade.tx.dto.CommonRsp;
-import com.paytend.amex.service.DsService;
+import com.paytend.amex.biz.DsCommandService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import java.util.Base64;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+//import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 /**
@@ -30,11 +29,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public class ViewController {
 
-    @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Resource
     private ObjectMapper jasonObjMapper;
     @Resource
-    public DsService dsService;
+    public DsCommandService dsCommandService;
 
     @RequestMapping(path = "supportedVersionNotify/{cardAsn}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView receiveNotify(@RequestParam("threeDSMethodData") String data,
@@ -56,11 +54,11 @@ public class ViewController {
         return result;
     }
 
-    @PostMapping(path = "supportedVersion", produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "supportedVersion",  method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView supportedVersion(@RequestParam("cardNo") String cardAsn) {
         SupportedVersionReqDto versionReqDto = new SupportedVersionReqDto();
         versionReqDto.setCardNo(cardAsn);
-        SupportedVersionRspDto rsp = dsService.supportedVersion(versionReqDto);
+        SupportedVersionRspDto rsp = dsCommandService.supportedVersion(versionReqDto);
         log.info("rsp:{}", JSONUtil.toJsonStr(CommonRsp.OK(rsp)));
         ModelAndView result = new ModelAndView();
         if (rsp.getThreeDSMethodURL() == null) {

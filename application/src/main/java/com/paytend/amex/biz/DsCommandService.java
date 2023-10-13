@@ -1,4 +1,4 @@
-package com.paytend.amex.service;
+package com.paytend.amex.biz;
 
 import com.paytend.amex.facade.ds.RemoteDsService;
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class DsService {
+public class DsCommandService {
     final RemoteDsService remoteDsService;
 
-    public DsService(RemoteDsService remoteDsService) {
+    public DsCommandService(RemoteDsService remoteDsService) {
         this.remoteDsService = remoteDsService;
     }
 

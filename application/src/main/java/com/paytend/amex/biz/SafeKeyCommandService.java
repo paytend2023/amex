@@ -1,4 +1,4 @@
-package com.paytend.amex.service;
+package com.paytend.amex.biz;
 
 import com.paytend.amex.facade.tx.dto.TxHeader;
 import com.paytend.amex.facade.tx.dto.req.Authorization;
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * 
  */
 @Service
-public class SafeKeyService {
+public class SafeKeyCommandService {
     @Resource
     private RemoteSafeKeyService remoteSafeKeyService;
 

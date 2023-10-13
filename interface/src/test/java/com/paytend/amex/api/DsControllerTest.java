@@ -3,7 +3,7 @@ package com.paytend.amex.api;
 import cn.hutool.json.JSONUtil;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
-import com.paytend.amex.service.DsService;
+import com.paytend.amex.biz.DsCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 class DsControllerTest {
     @Mock
-    public DsService dsService;
+    public DsCommandService dsCommandService;
 
 
     @Test
@@ -40,8 +40,8 @@ class DsControllerTest {
         SupportedVersionReqDto supportedVersionReqDto = new SupportedVersionReqDto();
         supportedVersionReqDto.setCardNo("375987000169800");
         supportedVersionReqDto.setNotificationURL("www.baidu.com");
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new DsController(dsService)).build();
-        Mockito.when(dsService.supportedVersion(any(SupportedVersionReqDto.class))).thenReturn(new SupportedVersionRspDto());
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new DsController(dsCommandService)).build();
+        Mockito.when(dsCommandService.supportedVersion(any(SupportedVersionReqDto.class))).thenReturn(new SupportedVersionRspDto());
         mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/ds/supportedVersion")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)

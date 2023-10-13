@@ -1,17 +1,19 @@
-package com.paytend.amex.dao.entity;
+package com.paytend.ds;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 
+//import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
  * @author xxx
  */
 @Data
-public class DsOrderEntity {
+//@Table(name = "tbl_ds_order")
+public class DsOrderPo {
     @Id
     private String id;
 

@@ -6,7 +6,7 @@ import com.paytend.amex.api.model.AuthNotifyVo;
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
 import com.paytend.amex.facade.tx.dto.CommonRsp;
-import com.paytend.amex.service.DsService;
+import com.paytend.amex.biz.DsCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,7 +30,7 @@ public class DsController {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private ObjectMapper jasonObjMapper;
     @Resource
-    public DsService dsService;
+    public DsCommandService dsCommandService;
 
 
 
@@ -38,7 +38,7 @@ public class DsController {
     public CommonRsp<AutherizationDsRspDto> doAuthentication(@RequestBody AutherizationDsReqDto auth,
                                                              @RequestHeader("threeDsServerTransId") String threeDsServerTransId) {
         auth.setNotificationURL(auth.getAcctNumber());
-        AutherizationDsRspDto dto = dsService.doAuthentication(auth, threeDsServerTransId);
+        AutherizationDsRspDto dto = dsCommandService.doAuthentication(auth, threeDsServerTransId);
         return CommonRsp.OK(dto);
     }
 
@@ -56,7 +56,7 @@ public class DsController {
         return jasonObjMapper.readValue(new String(Base64.getDecoder().decode(data)), AuthNotifyVo.class);
     }
 
-    public DsController(DsService dsService) {
-        this.dsService = dsService;
+    public DsController(DsCommandService dsCommandService) {
+        this.dsCommandService = dsCommandService;
     }
 }
