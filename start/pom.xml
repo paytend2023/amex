@@ -16,7 +16,34 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+    <profiles>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
 
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>devh</id>
+            <properties>
+                <profiles.active>devh</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
 
         <dependency>
@@ -33,6 +60,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <dependency>

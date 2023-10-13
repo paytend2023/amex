@@ -8,7 +8,34 @@
     <artifactId>amex</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <profiles>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
 
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>devh</id>
+            <properties>
+                <profiles.active>devh</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
     <modules>
         <module>interface</module>
         <module>domain</module>
@@ -78,7 +105,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
 
     <build>
