@@ -1,6 +1,6 @@
 package com.paytend.amex.biz;
 
-import com.paytend.amex.facade.ds.RemoteDsService;
+import com.paytend.amex.remote.RemoteDsService;
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;

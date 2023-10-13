@@ -9,5 +9,11 @@ import com.paytend.amex.facade.tx.dto.rsp.AuthorizationRsp;
  * 
  */
 public interface RemoteSafeKeyService {
+    /**
+     * @param authorization  授权交易
+     * @param header
+     * @return
+     * @throws Exception
+     */
     AuthorizationRsp auth(Authorization authorization, TxHeader header) throws Exception  ;
 }

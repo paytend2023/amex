@@ -1,4 +1,4 @@
-package com.paytend.amex.facade.ds;
+package com.paytend.amex.remote;
 
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;

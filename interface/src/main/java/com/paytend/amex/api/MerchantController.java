@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping(value = "merchant")
-public class Merchant {
+public class MerchantController {
     public String query(Long id) {
         return "";
     }
