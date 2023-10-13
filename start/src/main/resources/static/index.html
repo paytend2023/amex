@@ -8,7 +8,8 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript">
         function test() {
-            request($("#form1"), "/3ds/ds/supportedVersion", function (ret) {
+            ///3ds/
+            request($("#form1"), "ds/supportedVersion", function (ret) {
                 let myform = $(ret.data.threedsmethodHtml);
                 $("#ds_div").append(myform)
                 myform.submit();
