@@ -7,20 +7,34 @@ import lombok.Data;
  * @author Sunny
  * @create 2023/9/18 12:52
  */
+
+/**
+ * {
+ *     "threeDSServerTransID":"393f99b9-466b-4543-8243-dd35c92c0080",
+ *     "acsChallengeMandated":"N",
+ *     "acsReferenceNumber":"3DS_LOA_ACS_UPIT_000000_00001",
+ *     "acsTransID":"35169020-e8ff-42fb-8dc5-8bd6491e817e",
+ *     "dsTransID":"17973862-dd8a-4713-b044-a4684a9b066c",
+ *     "dsReferenceNumber":"3DS_LOA_DIS_CUCC_020100_00103",
+ *     "eci":"05",
+ *     "messageVersion":"2.2.0",
+ *     "transStatus":"Y",
+ */
+
+/**
+ * "threeDSServerTransID":"21603f1f-d502-437d-98eb-0ccf67040057",
+ * "errorCode":"201",
+ * "errorComponent":"S",
+ * "errorDescription":"threeDSServerTransID does not exist or has already been used",
+ * "errorDetail":"3DS Server",
+ * "errorMessageType":"AReq",
+ * "messageType":"Erro",
+ * "messageVersion":"2.2.0"
+ */
+
 @Data
 public class AutherizationDsRspDto extends BaseErrRspData {
-    /**
-     * {
-     *     "threeDSServerTransID": "099d4eb0-5ea8-460a-bb66-dc6be9593422",
-     *     "acsChallengeMandated": "N",
-     *     "acsReferenceNumber": "3DS_LOA_ACS_UPIT_000000_00001",
-     *     "acsTransID": "ac655716-b0e7-4bc8-b5be-f4fc52072638",
-     *     "dsTransID": "b4a9b8c2-b953-4834-8711-718f99298619",
-     *     "dsReferenceNumber": "3DS_LOA_DIS_CUCC_020100_00103",
-     *     "eci": "07",
-     *     "messageVersion": "2.2.0",
-     *     "transStatus": "U",
-     */
+
 
   private   String threeDSServerTransID;
   private   String acsChallengeMandated;
@@ -31,4 +45,8 @@ public class AutherizationDsRspDto extends BaseErrRspData {
   private   String eci;
   private   String messageVersion;
   private   String transStatus;
+
+
+
+
 }

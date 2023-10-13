@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>3DS----AUTH</title>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/3ds/common.js"></script>
-
+    <!--    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    <script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="${CONTEXT_PATH}+@{/js/common.js}"></script>
     <!--    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">-->
     <script type="text/javascript">
 
+        let contextPath = '[[${CONTEXT_PATH}]]'
         $(function () {
             let authForm = $("#auth_form")
 
@@ -24,6 +25,7 @@
             authForm.find('input[name="browserColorDepth"]').val(screen.colorDepth)
             authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
             authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
+
 
             let currentDate = new Date();
             let dayStamp = 24 * 60 * 60 * 1000
@@ -66,30 +68,25 @@
         function getTimezoneName() {
             let time = new Date()
             console.log("timeZoneOffset:" + (0 - time.getTimezoneOffset()) / 60)
-
             let depth = screen.colorDepth;
-
             console.log("javaEnabled:" + navigator.javaEnabled())
             console.log("userAgent:" + navigator.userAgent) //browserUserAgent
             console.log("height:" + screen.height)
             console.log("width:" + screen.width)
             console.log("colorDepth:" + screen.colorDepth)
             console.log("language:" + navigator.language)
-
-
             return (0 - time.getTimezoneOffset()) / 60
         }
 
         function doAuto() {
             let form = $("#auth_form")
-            let url = "/3ds/ds/doAuthentication"
-
-
+            let url = contextPath + "/ds/doAuthentication"
             let transId = $("#callback_form").find('input[name="threeDSServerTransID"]').val();
             let header = {}
             header.threeDsServerTransId = transId
             requestByHeader(form, url, header, function (r) {
                 console.log(r)
+                setFormData($("#auth_result_form"), r.data)
             })
         }
 
@@ -130,6 +127,15 @@
                 <input type="text" placeholder="cardAsn"
                        name="cardAsn"
                        th:value="${notifyVo.cardAsn}"><label>added element</label>
+            </label>
+        </div>
+
+        <div>
+            <label>remoteAddr</label>
+            <label>
+                <input type="text" placeholder="remoteAddr"
+                       name="remoteAddr"
+                       th:value="${#request.getRemoteAddr()}"><label>added element</label>
             </label>
         </div>
 
@@ -489,6 +495,84 @@
         </table>
     </form>
     <button onclick="doAuto();return false;">doAuto</button>
+</div>
+
+<div>
+    <form id="auth_result_form">
+        <table>
+            <tbody>
+            <tr>
+                <td><label>threeDSServerTransID</label></td>
+                <td><input name="threeDSServerTransID"></td>
+            </tr>
+            <tr>
+                <td><label>acsChallengeMandated</label></td>
+                <td><input name="acsChallengeMandated"></td>
+            </tr>
+            <tr>
+                <td><label>acsReferenceNumber</label></td>
+                <td><input name="acsReferenceNumber"></td>
+            </tr>
+            <tr>
+                <td><label>acsTransID</label></td>
+                <td><input name="acsTransID"></td>
+            </tr>
+            <tr>
+                <td><label>dsTransID</label></td>
+                <td><input name="dsTransID"></td>
+            </tr>
+            <tr>
+                <td><label>dsReferenceNumber</label></td>
+                <td><input name="dsReferenceNumber"></td>
+            </tr>
+            <tr>
+                <td><label>eci</label></td>
+                <td><input name="eci"></td>
+            </tr>
+            <tr>
+                <td><label>messageVersion</label></td>
+                <td><input name="messageVersion"></td>
+            </tr>
+            <tr>
+                <td><label>transStatus</label></td>
+                <td><input name="transStatus"></td>
+            </tr>
+            <tr>
+                <td><label>messageType</label></td>
+                <td><input name="messageType"></td>
+            </tr>
+            <tr>
+                <td><label>authenticationValue</label></td>
+                <td><input name="authenticationValue"></td>
+            </tr>
+
+
+            <!--      失败信息-->
+            <tr>
+                <td><label>errorCode</label></td>
+                <td><input name="errorCode"></td>
+            </tr>
+            <tr>
+                <td><label>errorComponent</label></td>
+                <td><input name="errorComponent"></td>
+            </tr>
+            <tr>
+                <td><label>errorDescription</label></td>
+                <td><input name="errorDescription"></td>
+            </tr>
+            <tr>
+                <td><label>errorDetail</label></td>
+                <td><input name="errorDetail"></td>
+            </tr>
+            <tr>
+                <td><label>errorMessageType</label></td>
+                <td><input name="errorMessageType"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+
 </div>
 
 </body>

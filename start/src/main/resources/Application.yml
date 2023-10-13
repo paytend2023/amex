@@ -10,6 +10,10 @@ ds:
     supportedVersionUrl: https://test.sinopayservice.com/GwThreeds/authentication/v1/supportedVersion
     authUrl: https://test.sinopayservice.com/GwThreeds/authentication/v1/auth
     publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Def2tyTs3sWg1HiLD3l/ECjdk0aVqIZaOScMYpcN4CINJ2G8egWVqCzGkBemg1l2gQMoSc7WeW1KZA5t4Qsr1H2IJRe8c26oeqf3hlJac0iWI55CN6Qslbzu0xSu2RqXfKrIiRYtu166unPS7zS6jffjViRzd1LBpiFjrc2w9p8KPMdBhzfUwDfFotPMBbwzW2Yt7PdVVtq1M3QiIpjm7SVVL8p5Js9UO4sctG4SAiXtmvTQM3fV019Zi4WGRi+L4c7aOOnotzcHr4meM/8QRnF1nLPIo6VVnMbuvR1FCarVvOpeVHyoEivRN8w9BhlATZP3Iftga+/IccUFWYutQIDAQAB
+#    versionNotifyUrl: https://2b145863i9.yicp.fun/view/supportedVersionNotify/
+    versionNotifyUrl: http://180.168.215.67:9088/3ds/view/supportedVersionNotify/
+
+
 
 spring:
   jackson:
@@ -45,9 +49,5 @@ spring:
     prefix: classpath:/templates/
     content-type: text/html
     suffix: .htm
-
-
-
-
-
-
+web:
+  contextPah: /3ds

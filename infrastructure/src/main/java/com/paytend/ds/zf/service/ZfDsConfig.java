@@ -19,4 +19,7 @@ public class ZfDsConfig {
     private String publicKey;
     private String authUrl;
     private String resultUrl;
+
+    //doSupportedVersion 回调地址
+    private String versionNotifyUrl;
 }

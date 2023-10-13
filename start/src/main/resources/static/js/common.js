@@ -15,6 +15,17 @@ function getFormData(form) {
     return jsonData
 }
 
+function setFormData(form, jsonData) {
+    let formData = form.serializeArray()
+    $.each(formData, function () {
+        if (jsonData[this.name]) {
+           this.value = jsonData [this.name]
+            form.find('input[name='+this.name+']').val(jsonData [this.name] )
+            // this.val(jsonData[this.name])
+        }
+    })
+}
+
 function requestByHeader(form, url, header, callback) {
     let formData = getFormData(form)
     console.log(formData)

@@ -1,20 +1,15 @@
 package com.paytend.amex.api;
 
-import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.api.model.NotifyVo;
-import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-
 import java.util.Base64;
-import java.util.Date;
 
 
 /**
@@ -30,7 +25,6 @@ public class ViewController {
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private ObjectMapper jasonObjMapper;
-
 
     @RequestMapping(path = "supportedVersionNotify/{cardAsn}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView receiveNotify(@RequestParam("threeDSMethodData") String data,

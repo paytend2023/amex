@@ -8,7 +8,6 @@ import com.paytend.ds.zf.RSAUtils;
 import com.paytend.exception.CallRemoteException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.apache.commons.logging.Log;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,7 +22,6 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class RemoteDsServiceImpl implements RemoteDsService {
-
     final private static OkHttpClient HTTP_CLIENT = new OkHttpClient();
 
     //   "https://test.sinopayservice.com/GwThreeds/authentication/v1/supportedVersion";
@@ -35,6 +33,8 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     //    https://test.sinopayservice.com/GwThreeds/challenge/v1/{threeDSServerTransID}/result
     private final String resultUrl;
 
+    private final String versionNotifyUrl;
+
 
     public RemoteDsServiceImpl(ZfDsConfig config) {
         log.info("init config:{}", config);
@@ -43,6 +43,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         this.publicKey = config.getPublicKey();
         this.authUrl = config.getAuthUrl();
         this.resultUrl = config.getResultUrl();
+        this.versionNotifyUrl = config.getVersionNotifyUrl();
     }
 
 
@@ -51,7 +52,14 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
         headers.put("threeDSServerTransID", Optional.of(threeDsServerTransId).get());
+        //前端只传部分的URL
+        auth.setNotificationURL(formatPath(versionNotifyUrl) + auth.getNotificationURL());
         return innerReq(auth, headers, AutherizationDsRspDto.class, authUrl);
+    }
+
+    private String formatPath(String url) {
+        String tmp = Optional.of(url).get();
+        return tmp.endsWith("/") ? tmp : tmp + "/";
     }
 
     public QueryRespDto doQuery(String threeDsServerTransId) {
@@ -77,6 +85,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     @Override
     public SupportedVersionRspDto doSupportedVersion(SupportedVersionReqDto req) {
         Map<String, String> headers = new HashMap<>();
+        req.setNotificationURL(formatPath(versionNotifyUrl) + req.getNotificationURL());
         headers.put("merNo", merNo);
         return innerReq(req, headers, SupportedVersionRspDto.class, supportedVersionUrl);
     }

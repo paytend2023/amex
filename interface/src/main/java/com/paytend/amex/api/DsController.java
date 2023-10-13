@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -26,17 +27,16 @@ public class DsController {
     @Resource
     public DsService dsService;
 
-    private static final String NOTIFY_URL = "http://180.168.215.67:9088/3ds/view/supportedVersionNotify/";
-//    private static final String NOTIFY_URL = "https://2b145863i9.yicp.fun/view/supportedVersionNotify/";
 
     @PostMapping(path = "supportedVersion", produces = APPLICATION_JSON_VALUE)
     public CommonRsp<SupportedVersionRspDto> supportedVersion(@RequestBody SupportedVersionReqDto versionReqDto) {
         log.info("req:{}", versionReqDto);
-        versionReqDto.setNotificationURL(NOTIFY_URL + versionReqDto.getCardNo());
+        versionReqDto.setNotificationURL(versionReqDto.getCardNo());
         SupportedVersionRspDto rsp = dsService.supportedVersion(versionReqDto);
         log.info("rsp:{}", JSONUtil.toJsonStr(CommonRsp.OK(rsp)));
-        return CommonRsp.OK(rsp);
+         return CommonRsp.OK(rsp);
     }
+
     @PostMapping(path = "doAuthentication", produces = APPLICATION_JSON_VALUE)
     public CommonRsp<AutherizationDsRspDto> doAuthentication(@RequestBody AutherizationDsReqDto auth,
                                                              @RequestHeader("threeDsServerTransId") String threeDsServerTransId) {
