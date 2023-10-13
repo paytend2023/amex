@@ -33,9 +33,7 @@ public class TxController {
         log.info("auth>>>>>{} {}", authorization, headers);
         AuthorizationRsp rsp = safeKeyService.auth(authorization, buildHeader(headers));
         log.info("auth rsp>>>>>  {}", rsp);
-        CommonRsp<AuthorizationRsp> ret = new CommonRsp<>();
-        ret.setData(rsp);
-        return ret;
+        return CommonRsp.OK(rsp);
     }
 
     private TxHeader buildHeader(Map<String, String> headers) {

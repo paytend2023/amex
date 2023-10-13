@@ -54,13 +54,14 @@ class TxControllerTest {
     @Test
     public void auth() {
         Authorization authorization = new Authorization();
-        txController.auth(authorization, new HashMap<String, String>());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TxController(safeKeyService)).build();
         MvcResult mvcResult = null;
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("h1", "h1aa");
-        httpHeaders.add("h2", "h2bb");
-        httpHeaders.add("h3", "h3cc");
+        httpHeaders.add("origin", "Paytend");
+        httpHeaders.add("country", "276");
+        httpHeaders.add("region", "EMEA");
+        httpHeaders.add("merchnbr", "3285220521");
+
         try {
 
             authorization.setAcqInstCtryCd("123");

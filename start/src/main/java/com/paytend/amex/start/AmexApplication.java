@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @create 2023/9/9 17:28
  */
 
-@SpringBootApplication(scanBasePackages = {"com.paytend.amex"})
+@SpringBootApplication(scanBasePackages = {"com.paytend"})
  public class AmexApplication {
     public static void main(String[] args) {
         SpringApplication.run(AmexApplication.class);
