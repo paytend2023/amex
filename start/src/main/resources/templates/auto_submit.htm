@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js}"></script>
+    <script th:src="${CONTEXT_PATH}+@{/js/common.js}"></script>
+
+    <meta charset="UTF-8">
+    <title>auto_submit</title>
+    <script type="text/javascript">
+        //构建form表单提交数据
+        let myform = $('[${data.threedsmethodHtml}]');
+        $("#ds_div").append(myform)
+        myform.submit();
+    </script>
+</head>
+<body>
+<div id="ds_div">
+
+
+</div>
+</body>
+</html>

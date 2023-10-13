@@ -1,8 +1,8 @@
 package com.paytend.amex.models.trans;
 
 /**
- * @author Sunny
- * @create 2023/8/22 21:45
+ * @author XX
+ * 
  */
 public interface XmlRequest {
     /**

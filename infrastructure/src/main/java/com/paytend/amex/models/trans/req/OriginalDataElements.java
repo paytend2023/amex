@@ -12,8 +12,8 @@ import lombok.Setter;
  * <AcqInstIdCd></AcqInstIdCd>
  * </OriginalDataElements>
  *
- * @author Sunny
- * @create 2023/8/25 15:18
+ * @author XX
+ * 
  */
 @Setter
 @Getter

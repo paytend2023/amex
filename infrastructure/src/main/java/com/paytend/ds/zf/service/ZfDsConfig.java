@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * @author Sunny
- * @create 2023/9/15 10:17
+ * @author XX
+ * 
  */
 @Data
 @Component
@@ -22,4 +22,6 @@ public class ZfDsConfig {
 
     //doSupportedVersion 回调地址
     private String versionNotifyUrl;
+    //doAuth 回调地址
+    private String authNotifyUrl;
 }

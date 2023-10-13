@@ -3,8 +3,8 @@ package com.paytend.amex.facade.ds.dto;
 import lombok.Data;
 
 /**
- * @author Sunny
- * @create 2023/9/16 10:25
+ * @author XX
+ * 
  */
 @Data
 /**

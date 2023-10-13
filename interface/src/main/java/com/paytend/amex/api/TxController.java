@@ -1,6 +1,9 @@
 package com.paytend.amex.api;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paytend.amex.api.model.AuthNotifyVo;
 import com.paytend.amex.facade.tx.dto.CommonRsp;
 import com.paytend.amex.facade.tx.dto.TxHeader;
 import com.paytend.amex.facade.tx.dto.req.Authorization;
@@ -8,15 +11,17 @@ import com.paytend.amex.facade.tx.dto.rsp.AuthorizationRsp;
 import com.paytend.amex.service.SafeKeyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author Sunny
- * @create 2023/9/12 08:52
+ * @author XX
  */
 
 @RestController
@@ -27,6 +32,8 @@ public class TxController {
     @Resource
     private SafeKeyService safeKeyService;
 
+
+
     @PostMapping(path = "auth")
     public CommonRsp<AuthorizationRsp> auth(@RequestBody Authorization authorization,
                                             @RequestHeader Map<String, String> headers) {
@@ -35,6 +42,9 @@ public class TxController {
         log.info("auth rsp>>>>>  {}", rsp);
         return CommonRsp.OK(rsp);
     }
+
+
+
 
     private TxHeader buildHeader(Map<String, String> headers) {
         return TxHeader.builder()

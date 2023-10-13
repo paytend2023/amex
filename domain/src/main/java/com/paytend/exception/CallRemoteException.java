@@ -1,10 +1,8 @@
 package com.paytend.exception;
 
-import sun.awt.CausedFocusEvent;
-
 /**
- * @author Sunny
- * @create 2023/9/12 14:17
+ * @author XX
+ * 
  */
 public class CallRemoteException extends RuntimeException {
 

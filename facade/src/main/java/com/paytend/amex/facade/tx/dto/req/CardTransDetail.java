@@ -3,8 +3,8 @@ package com.paytend.amex.facade.tx.dto.req;
 import lombok.ToString;
 
 /**
- * @author Sunny
- * @create 2023/8/19 10:57
+ * @author XX
+ * 
  */
 @ToString
 public class CardTransDetail {

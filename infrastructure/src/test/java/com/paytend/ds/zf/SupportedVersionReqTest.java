@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * @author Sunny
- * @create 2023/9/15 09:21
+ * @author XX
+ * 
  */
 
 class SupportedVersionReqTest {

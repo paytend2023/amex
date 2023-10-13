@@ -5,14 +5,11 @@ import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 /**
- * @author Sunny
- * @create 2023/9/15 13:08
+ * @author XX
+ * 
  */
 @Service
 public class DsService {

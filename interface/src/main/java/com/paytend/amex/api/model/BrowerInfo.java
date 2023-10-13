@@ -3,8 +3,8 @@ package com.paytend.amex.api.model;
 import lombok.Data;
 
 /**
- * @author Sunny
- * @create 2023/9/19 13:29
+ * @author XX
+ * 
  */
 @Data
 public class BrowerInfo {

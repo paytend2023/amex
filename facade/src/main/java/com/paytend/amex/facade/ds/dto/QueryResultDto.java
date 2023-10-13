@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * @author Sunny
- * @create 2023/9/18 17:08
+ * @author XX
+ * 
  */
 @Data
 public class QueryResultDto {

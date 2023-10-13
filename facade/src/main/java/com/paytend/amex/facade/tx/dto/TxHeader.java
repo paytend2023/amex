@@ -7,8 +7,8 @@ import lombok.Setter;
 /**
  * 交易请求头
  *
- * @author Sunny
- * @create 2023/9/11 21:51
+ * @author XX
+ * 
  */
 @Setter
 @Getter

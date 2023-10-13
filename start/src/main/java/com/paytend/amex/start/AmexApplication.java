@@ -1,20 +1,18 @@
 package com.paytend.amex.start;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * @author Sunny
- * @create 2023/9/9 17:28
+ * @author XX
+ * 
  */
 
+@EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = {"com.paytend"})
  public class AmexApplication {
-
 //    JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES,
 
     public static void main(String[] args) {

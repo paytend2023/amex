@@ -2,11 +2,12 @@ package com.paytend.amex.facade.ds.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.experimental.Tolerate;
 
 /**
- * @author Sunny
- * @create 2023/9/15 09:13
+ * @author XX
+ * 
  */
 @Data
 @Builder

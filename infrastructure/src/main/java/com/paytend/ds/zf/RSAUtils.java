@@ -11,8 +11,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 /**
- * @author Sunny
- * @create 2023/9/15 08:54
+ * @author XX
+ * 
  */
 public class RSAUtils {
     /**
@@ -167,6 +167,13 @@ public class RSAUtils {
 
     public static void main(String[] args) throws Exception {
         try {
+
+         // RSAUtils.getPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDM4SgHsCsWxJR4LMXbq0tB9fSj47uiouAypW3e1fTxahDmVZ1VUqRCeT3v7FlVG5cFz26vsEXpZklqbBpH9wbwRblRF2awvYnsS++UMDCK+6FD+sLgkQmmcZqhdUcICOpcecHvQXxQYYD8syBFkmlKhXuaCF4O5W/gXbIPDjfi5wIDAQAB");
+            RSAUtils.getPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDM4SgHsCsWxJR4LMXbq0tB9fSj47uiouAypW3e1fTxahDmVZ1VUqRCeT3v7FlVG5cFz26vsEXpZklqbBpH9wbwRblRF2awvYnsS++UMDCK+6FD+sLgkQmmcZqhdUcICOpcecHvQXxQYYD8syBFkmlKhXuaCF4O5W/gXbIPDjfi5wIDAQAB");
+            RSAUtils.getPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCTL7r8Dd9s/N6wzvlLqc8dEIL+3s5GkdXcynvOQPoPfcDflzfBbX51ODJ9j/LBWm0+fmVl3t/G1rNTjUtT7jFxFxlbBh8voA7wLgxEQSqWVBbjMw1w8MuU7doD2pzYP7UaIDJww7zQV1umDBUrrthp1G71fcoCFkW3jGRDa5FXYwIDAQAB");
+            if(1==1){
+                return;
+            }
             // 生成密钥对
             KeyPair keyPair = getKeyPair();
             String privateKey = new String(Base64.getEncoder().encode(keyPair.getPrivate().getEncoded()));

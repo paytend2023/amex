@@ -1,20 +1,28 @@
 package com.paytend.amex.api;
 
+import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.api.model.NotifyVo;
+import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
+import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
+import com.paytend.amex.facade.tx.dto.CommonRsp;
+import com.paytend.amex.service.DsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
 import java.util.Base64;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 /**
- * @author Sunny
- * @create 2023/9/19 09:43
+ * @author XX
  */
 @Controller
 @Slf4j
@@ -25,6 +33,8 @@ public class ViewController {
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private ObjectMapper jasonObjMapper;
+    @Resource
+    public DsService dsService;
 
     @RequestMapping(path = "supportedVersionNotify/{cardAsn}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView receiveNotify(@RequestParam("threeDSMethodData") String data,
@@ -43,6 +53,26 @@ public class ViewController {
         ModelAndView result = new ModelAndView();
         result.addObject("notifyVo", vo);
         result.setViewName("auth");
+        return result;
+    }
+
+    @PostMapping(path = "supportedVersion", produces = APPLICATION_JSON_VALUE)
+    public ModelAndView supportedVersion(@RequestParam("cardNo") String cardAsn) {
+        SupportedVersionReqDto versionReqDto = new SupportedVersionReqDto();
+        versionReqDto.setCardNo(cardAsn);
+        SupportedVersionRspDto rsp = dsService.supportedVersion(versionReqDto);
+        log.info("rsp:{}", JSONUtil.toJsonStr(CommonRsp.OK(rsp)));
+        ModelAndView result = new ModelAndView();
+        if (rsp.getThreeDSMethodURL() == null) {
+            NotifyVo notifyRet = new NotifyVo();
+            notifyRet.setCardAsn(cardAsn);
+            notifyRet.setThreeDsServerTransId(rsp.getThreeDSServerTransID());
+            result.addObject("notifyVo", notifyRet);
+            result.setViewName("auth");
+        } else {
+            result.addObject("data", rsp);
+            result.setViewName("auto_submit");
+        }
         return result;
     }
 }

@@ -3,8 +3,8 @@ package com.paytend.amex.facade.ds.dto;
 import lombok.Data;
 
 /**
- * @author Sunny
- * @create 2023/9/15 09:26
+ * @author XX
+ * 
  */
 @Data
 public class SupportedVersionRspDto extends BaseErrRspData{

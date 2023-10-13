@@ -1,6 +1,8 @@
 package com.paytend.ds.zf.service;
 
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.facade.ds.RemoteDsService;
 import com.paytend.amex.facade.ds.dto.*;
 import com.paytend.ds.zf.RSAUtils;
@@ -9,20 +11,23 @@ import com.paytend.exception.CallRemoteException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author Sunny
- * @create 2023/9/15 09:25
+ * @author XX
  */
 @Service
 @Slf4j
 public class RemoteDsServiceImpl implements RemoteDsService {
     final private static OkHttpClient HTTP_CLIENT = new OkHttpClient();
+    @Resource
+    private ObjectMapper objectMapper;
 
     //   "https://test.sinopayservice.com/GwThreeds/authentication/v1/supportedVersion";
     private final String supportedVersionUrl;
@@ -34,6 +39,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     private final String resultUrl;
 
     private final String versionNotifyUrl;
+    private final String authNotifyUrl;
 
 
     public RemoteDsServiceImpl(ZfDsConfig config) {
@@ -44,6 +50,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         this.authUrl = config.getAuthUrl();
         this.resultUrl = config.getResultUrl();
         this.versionNotifyUrl = config.getVersionNotifyUrl();
+        this.authNotifyUrl = config.getAuthNotifyUrl();
     }
 
 
@@ -52,8 +59,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
         headers.put("threeDSServerTransID", Optional.of(threeDsServerTransId).get());
-        //前端只传部分的URL
-        auth.setNotificationURL(formatPath(versionNotifyUrl) + auth.getNotificationURL());
+        auth.setNotificationURL(createNotifyUrl(authNotifyUrl, auth.getNotificationURL()));
         return innerReq(auth, headers, AutherizationDsRspDto.class, authUrl);
     }
 
@@ -67,7 +73,6 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     }
 
     private QueryRespDto innerGet(String url) {
-        log.info("query:{}", url);
         Request request = new Request.Builder().url(url).build();
         Call call = HTTP_CLIENT.newCall(request);
         try {
@@ -82,16 +87,30 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     }
 
 
+    String createNotifyUrl(String baseNotifyUrl, String urlPathInfo) {
+        if (Optional.of(urlPathInfo).get().startsWith("http")) {
+            throw new RuntimeException("通知地址错误" + formatPath(baseNotifyUrl) + urlPathInfo);
+        }
+        return formatPath(baseNotifyUrl) + urlPathInfo;
+    }
+
     @Override
-    public SupportedVersionRspDto doSupportedVersion(SupportedVersionReqDto req) {
+    public SupportedVersionRspDto doSupportedVersion(@Validated SupportedVersionReqDto req) {
+        assert req.getCardNo() != null;
         Map<String, String> headers = new HashMap<>();
-        req.setNotificationURL(formatPath(versionNotifyUrl) + req.getNotificationURL());
+        req.setNotificationURL(createNotifyUrl(versionNotifyUrl, req.getCardNo()));
         headers.put("merNo", merNo);
         return innerReq(req, headers, SupportedVersionRspDto.class, supportedVersionUrl);
     }
 
     private <T, R> R innerReq(T req, Map<String, String> headers, Class<R> returnType, String url) {
-        String str = JSONUtil.toJsonStr(req);
+        String str;
+        try {
+            str = objectMapper.writeValueAsString(req);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("request json: [{}] [{}]", url, str);
         String reqStr = null;
         try {
             reqStr = RSAUtils.encrypt(str, RSAUtils.getPublicKey(publicKey));
@@ -131,8 +150,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         ResponseBody responseBody = response.body();
         // 将响应体转换为 JSON 字符串
         try {
-            String ret = responseBody.string();
-            return ret;
+            return responseBody.string();
         } catch (IOException e) {
             throw new CallRemoteException("读取中付返回信息异常", e);
         }

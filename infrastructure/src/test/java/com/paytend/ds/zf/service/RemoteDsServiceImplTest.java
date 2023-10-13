@@ -1,6 +1,5 @@
 package com.paytend.ds.zf.service;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
@@ -10,11 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * @author Sunny
- * @create 2023/9/18 13:23
+ * @author XX
+ * 
  */
 class RemoteDsServiceImplTest {
 
@@ -57,7 +54,7 @@ class RemoteDsServiceImplTest {
                 .mcc("7996")
                 .merchantName("xxx store")
                 .messageCategory("01")
-                .messageVersion("2.2.0")
+                .messageVersion("2.2.1")
                 .notificationURL("www.baidu.com")
                 .notificationURL("1000")
                 .purchaseAmount("1000")

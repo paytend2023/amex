@@ -26,26 +26,24 @@
             authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
             authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
 
-
             let currentDate = new Date();
             let dayStamp = 24 * 60 * 60 * 1000
-
             //测试自动补充
             authForm.find('input[name="acctType"]').val("01")
-            authForm.find('input[name="acquirerMerchantID"]').val("01")
-            authForm.find('input[name="acquirerBIN"]').val("12345678")
+            authForm.find('input[name="acquirerMerchantID"]').val("900000000000001")
+            authForm.find('input[name="acquirerBIN"]').val("8127478295")
             authForm.find('input[name="addrMatch"]').val("Y")
-            authForm.find('input[name="cardExpiryDate"]').val("2401")
+            authForm.find('input[name="cardExpiryDate"]').val("2705")
             authForm.find('input[name="deviceChannel"]').val("02")
             authForm.find('input[name="mcc"]').val("7996")
-            authForm.find('input[name="merchantName"]').val("test store")
+            authForm.find('input[name="merchantName"]').val("PAYTEND EUROPE UAB")
             authForm.find('input[name="messageCategory"]').val("01")
             authForm.find('input[name="threeDSRequestorAuthenticationInd"]').val("01")
 
             //threeDSMethodNotificationURL
             authForm.find('input[name="purchaseDate"]').val(formatDateTime(currentDate))
             authForm.find('input[name="recurringExpiry"]').val(formatDate(new Date(currentDate.getTime() + dayStamp)))
-            authForm.find('input[name="threeRIInd"]').val("11")
+            authForm.find('input[name="threeRIInd"]').val("")
             let callback_form = $("#callback_form")
             if (callback_form.find('input[name="threeDSMethodURL"]').val().length === 0) {
                 authForm.find('input[name="threeDSCompInd"]').val("U")
@@ -55,14 +53,8 @@
             authForm.find('input[name="acctNumber"]').val(callback_form.find('input[name="cardAsn"]').val())
             authForm.find('input[name="notificationURL"]').val(callback_form.find('input[name="threeDSMethodNotificationURL"]').val())
             authForm.find('input[name="threeDSRequestorDecMaxTime"]').val("1000")
-            authForm.find('input[name="transType"]').val("01")
+            // authForm.find('input[name="transType"]').val("10")
         })
-
-
-        // $('#myForm').find(':input').each(function() {
-        //     $(this).val(formData[$(this).attr('name')]);
-        // });
-        //
 
 
         function getTimezoneName() {
@@ -87,16 +79,33 @@
             requestByHeader(form, url, header, function (r) {
                 console.log(r)
                 setFormData($("#auth_result_form"), r.data)
+                if (r.data.transStatus === 'C') {
+                    // 发起挑战
+                    challenge(r.data)
+                }
             })
+        }
+
+        function challenge(data) {
+            let myform = $('<form id="creq" name="creq" action=' + data.acsURL + '  method="post" ></form>')
+            myform.html('<input type="hidden" name="creq" value=' + data.creqMessage + ' />');
+            $("#my_iframe").append(myform)
+            let tmpForm = $("#my_iframe form")
+            tmpForm.submit()
+            tmpForm.remove()
         }
 
     </script>
 </head>
 <body>
 <h2></h2>
+<iframe id="my_iframe">
+
+
+</iframe>
 
 <div>
-    <p>callback information</p>
+    <p>callback information (notify)</p>
     <hr>
     <form id="callback_form">
         <div>
@@ -118,7 +127,8 @@
             <label>
                 <input type="text" placeholder="threeDSMethodNotificationURL"
                        name="threeDSMethodNotificationURL"
-                       th:value="${notifyVo.threeDsMethodNotificationUrl}">
+                       th:value="${notifyVo.cardAsn}">
+                <label th:text="${notifyVo.threeDsMethodUrl}"/>
             </label>
         </div>
         <div>
@@ -138,6 +148,15 @@
                        th:value="${#request.getRemoteAddr()}"><label>added element</label>
             </label>
         </div>
+        <div>
+            <label>remoteAddr</label>
+            <label>
+                <input type="text" placeholder="remoteAddr"
+                       name="remoteAddr"
+                       th:value="${#request.getRemoteAddr()}"><label>added element</label>
+            </label>
+        </div>
+
 
     </form>
 </div>
@@ -274,7 +293,7 @@
                     <label>messageVersion:</label>
                 </td>
                 <td>
-                    <input name="messageVersion" value="2.2.0">
+                    <input name="messageVersion" value="2.1.0">
                 </td>
             </tr>
             <tr>
@@ -282,7 +301,7 @@
                     <label>purchaseAmount:</label>
                 </td>
                 <td>
-                    <input name="purchaseAmount" value="201">
+                    <input name="purchaseAmount" value="1"> <label>209 发起挑战 201 成功</label>
                 </td>
             </tr>
             <tr>
@@ -290,7 +309,7 @@
                     <label>purchaseCurrency:</label>
                 </td>
                 <td>
-                    <input name="purchaseCurrency" value="798">
+                    <input name="purchaseCurrency" value="978">
                 </td>
             </tr>
             <tr>
@@ -298,7 +317,7 @@
                     <label>merchantCountryCode:</label>
                 </td>
                 <td>
-                    <input name="merchantCountryCode" value="798">
+                    <input name="merchantCountryCode" value="440">
                 </td>
             </tr>
             <tr>
@@ -503,7 +522,10 @@
             <tbody>
             <tr>
                 <td><label>threeDSServerTransID</label></td>
-                <td><input name="threeDSServerTransID"></td>
+                <td><input name="threeDSServerTransID">
+                    <label>no notify,direct auth</label>
+                </td>
+
             </tr>
             <tr>
                 <td><label>acsChallengeMandated</label></td>

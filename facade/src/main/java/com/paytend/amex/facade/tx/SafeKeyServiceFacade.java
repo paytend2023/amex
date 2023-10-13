@@ -6,8 +6,8 @@ import com.paytend.amex.facade.tx.dto.req.Authorization;
 import com.paytend.amex.facade.tx.dto.CommonRsp;
 
 /**
- * @author Sunny
- * @create 2023/9/11 15:58
+ * @author XX
+ * 
  */
 public interface SafeKeyServiceFacade {
 
