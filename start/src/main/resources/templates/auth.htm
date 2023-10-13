@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>3DS----AUTH</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/3ds/common.js"></script>
+
+    <!--    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">-->
+    <script type="text/javascript">
+
+        $(function () {
+            let authForm = $("#auth_form")
+
+            //浏览器相关
+            authForm.find('input[name="browserAcceptHeader"]').val("text")
+            authForm.find('input[name="browserIP"]').val("127.0.0.1")
+            authForm.find('input[name="browserJavaEnabled"]').val(navigator.javaEnabled())
+            authForm.find('input[name="browserJavascriptEnabled"]').val(true)
+            authForm.find('input[name="browserLanguage"]').val(navigator.language)
+            authForm.find('input[name="browserScreenHeight"]').val(screen.height)
+            authForm.find('input[name="browserScreenWidth"]').val(screen.width)
+            authForm.find('input[name="browserTZ"]').val((0 - new Date().getTimezoneOffset()) / 60)
+            authForm.find('input[name="browserColorDepth"]').val(screen.colorDepth)
+            authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
+            authForm.find('input[name="browserUserAgent"]').val(navigator.userAgent)
+
+            let currentDate = new Date();
+            let dayStamp = 24 * 60 * 60 * 1000
+
+            //测试自动补充
+            authForm.find('input[name="acctType"]').val("01")
+            authForm.find('input[name="acquirerMerchantID"]').val("01")
+            authForm.find('input[name="acquirerBIN"]').val("12345678")
+            authForm.find('input[name="addrMatch"]').val("Y")
+            authForm.find('input[name="cardExpiryDate"]').val("2401")
+            authForm.find('input[name="deviceChannel"]').val("02")
+            authForm.find('input[name="mcc"]').val("7996")
+            authForm.find('input[name="merchantName"]').val("test store")
+            authForm.find('input[name="messageCategory"]').val("01")
+            authForm.find('input[name="threeDSRequestorAuthenticationInd"]').val("01")
+
+            //threeDSMethodNotificationURL
+            authForm.find('input[name="purchaseDate"]').val(formatDateTime(currentDate))
+            authForm.find('input[name="recurringExpiry"]').val(formatDate(new Date(currentDate.getTime() + dayStamp)))
+            authForm.find('input[name="threeRIInd"]').val("11")
+            let callback_form = $("#callback_form")
+            if (callback_form.find('input[name="threeDSMethodURL"]').val().length === 0) {
+                authForm.find('input[name="threeDSCompInd"]').val("U")
+            }
+
+
+            authForm.find('input[name="acctNumber"]').val(callback_form.find('input[name="cardAsn"]').val())
+            authForm.find('input[name="notificationURL"]').val(callback_form.find('input[name="threeDSMethodNotificationURL"]').val())
+            authForm.find('input[name="threeDSRequestorDecMaxTime"]').val("1000")
+            authForm.find('input[name="transType"]').val("01")
+        })
+
+
+        // $('#myForm').find(':input').each(function() {
+        //     $(this).val(formData[$(this).attr('name')]);
+        // });
+        //
+
+
+        function getTimezoneName() {
+            let time = new Date()
+            console.log("timeZoneOffset:" + (0 - time.getTimezoneOffset()) / 60)
+
+            let depth = screen.colorDepth;
+
+            console.log("javaEnabled:" + navigator.javaEnabled())
+            console.log("userAgent:" + navigator.userAgent) //browserUserAgent
+            console.log("height:" + screen.height)
+            console.log("width:" + screen.width)
+            console.log("colorDepth:" + screen.colorDepth)
+            console.log("language:" + navigator.language)
+
+
+            return (0 - time.getTimezoneOffset()) / 60
+        }
+
+        function doAuto() {
+            let form = $("#auth_form")
+            let url = "/3ds/ds/doAuthentication"
+
+
+            let transId = $("#callback_form").find('input[name="threeDSServerTransID"]').val();
+            let header = {}
+            header.threeDsServerTransId = transId
+            requestByHeader(form, url, header, function (r) {
+                console.log(r)
+            })
+        }
+
+    </script>
+</head>
+<body>
+<h2></h2>
+
+<div>
+    <p>callback information</p>
+    <hr>
+    <form id="callback_form">
+        <div>
+            <label>threeDSMethodURL</label>
+            <label>
+                <input type="text" placeholder="threeDSMethodURL" name="threeDSMethodURL"
+                       th:value="${notifyVo.threeDsMethodUrl}">
+            </label>
+        </div>
+        <div>
+            <label>threeDSServerTransID</label>
+            <label>
+                <input type="text" placeholder="threeDSServerTransID" name="threeDSServerTransID"
+                       th:value="${notifyVo.threeDsServerTransId}">
+            </label>
+        </div>
+        <div>
+            <label>threeDSMethodNotificationURL</label>
+            <label>
+                <input type="text" placeholder="threeDSMethodNotificationURL"
+                       name="threeDSMethodNotificationURL"
+                       th:value="${notifyVo.threeDsMethodNotificationUrl}">
+            </label>
+        </div>
+        <div>
+            <label>cardAsn</label>
+            <label>
+                <input type="text" placeholder="cardAsn"
+                       name="cardAsn"
+                       th:value="${notifyVo.cardAsn}"><label>added element</label>
+            </label>
+        </div>
+
+    </form>
+</div>
+<hr>
+<div id="auth_div">
+    <form name="auth_form" id="auth_form">
+        <table border="1">
+            <thead> Authorization</thead>
+            <tbody>
+            <tr>
+                <td>
+                    <label>acctNumber:</label>
+                </td>
+                <td>
+                    <input name="acctNumber">
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>acctType:</label>
+                </td>
+                <td>
+                    <input name="acctType">
+                </td>
+                <td>
+                    * • 01 =不适用
+                    * • 02 =Credit
+                    * • 03 = Debit
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>acquirerBIN:</label>
+                </td>
+                <td>
+                    <input name="acquirerBIN">
+                </td>
+                <td>
+                    收单机构号(DS分配的)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>acquirerMerchantID:</label>
+                </td>
+                <td>
+                    <input name="acquirerMerchantID">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>addrMatch:</label>
+                </td>
+                <td>
+                    <input name="addrMatch">
+                </td>
+                <td>
+                    地址匹配指示器；
+                    可选值：
+                    • Y = 发货地址与帐单地址一致
+                    • N=发货地址与账单地址不一致
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label>cardExpiryDate:</label>
+                </td>
+                <td>
+                    <input name="cardExpiryDate">
+                </td>
+                <td>
+                    <label>卡到期日期 ，格式：YYMM</label>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>deviceChannel:</label>
+                </td>
+                <td>
+                    <input name="deviceChannel">
+                </td>
+                <td><label>
+                    设备通道 ,
+                    可选值：
+                    • 01= APP
+                    •02=BRW
+                    •03 3RI
+                </label></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>mcc:</label>
+                </td>
+                <td>
+                    <input name="mcc">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>merchantName:</label>
+                </td>
+                <td>
+                    <input name="merchantName">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>messageCategory:</label>
+                </td>
+                <td>
+                    <input name="messageCategory">
+                </td>
+                <td>
+                    <label> * • 01 = 支付认证（交易中持卡人认证）-PA
+                        * • 02 = 非支付认证 （身份验证和账户确认）-NPA</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>notificationURL:</label>
+                </td>
+                <td>
+                    <input name="notificationURL">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>messageVersion:</label>
+                </td>
+                <td>
+                    <input name="messageVersion" value="2.2.0">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>purchaseAmount:</label>
+                </td>
+                <td>
+                    <input name="purchaseAmount" value="201">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>purchaseCurrency:</label>
+                </td>
+                <td>
+                    <input name="purchaseCurrency" value="798">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>merchantCountryCode:</label>
+                </td>
+                <td>
+                    <input name="merchantCountryCode" value="798">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>purchaseDate:</label>
+                </td>
+                <td>
+                    <input name="purchaseDate" value="">
+                </td>
+                <td>
+                    <label>购物日期和时间 日期时间格式：YYYYMMDDHHMMSS</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>threeRIInd:</label>
+                </td>
+                <td>
+                    <input name="threeRIInd" value="">
+                </td>
+                <td>
+                    <label>
+                        3RI指标
+                        可选值：
+                        • 01 = 循环付款交易
+                        • 02 = 分期付款交易
+                        •03 = 添加卡片
+                        • 04 = 维护卡片信息
+                        • 05 = 账户验证
+                        •06 = 分批/延时发货
+                        •07 = 充值
+                        •08 = 邮购
+                        •09 = 电话订购
+                        •10 = 白名单状态检查
+                        •11 = 其他付款
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>recurringExpiry:</label>
+                </td>
+                <td>
+                    <input name="recurringExpiry" value="">
+                </td>
+                <td>
+                    <label>在此日期之后将不 再执行任何授权 ，日期格式：YYYYMMDD</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>threeDSCompInd:</label>
+                </td>
+                <td>
+                    <input name="threeDSCompInd" value="">
+                </td>
+                <td>
+                    3DS方法完成指标，
+                    可选值：
+                    • Y=成功完成
+                    • N 没有成功完成
+                    • U =不可用-3DS方法URL不存在于与持卡人帐号相关的卡片范围的PRes信息数据中
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>threeDSRequestorAuthenticationInd:</label>
+                </td>
+                <td>
+                    <input name="threeDSRequestorAuthenticationInd" value="">
+                </td>
+                <td><label> 3DS请求者身份验证指示器
+                    可选值：
+                    • 01=付款交易,
+                    •02=循环交易,
+                    •03=分期交易,
+                    •04=添加卡,
+                    •05=维护卡,
+                    •06=持卡人验证作为EMV令牌ID&V的一部分</label></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>threeDSRequestorDecMaxTime:</label>
+                </td>
+                <td>
+                    <input name="threeDSRequestorDecMaxTime" value="">
+                </td>
+                <td><label>3DS Requestor解耦最大时间
+                    表示3DS请求者等待ACS提供解耦认证事务结果的最长时间(分钟)。
+                    接受1至10080之间的数值</label></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>transType:</label>
+                </td>
+                <td>
+                    <input name="transType" value="">
+                </td>
+                <td><label>事务类型；
+                    可选值
+                    •01 = 货物/服务采购
+                    • 03 = 检查验收
+                    •10 = 账户资金（例如：充值钱包，加载预付卡
+                    •11 = 准现金交易
+                    •28 = 预付费激活和加载</label></td>
+            </tr>
+            </tbody>
+            <thead>browser info</thead>
+            <tbody>
+            <tr>
+                <td>
+                    <label>browserAcceptHeader:</label>
+                </td>
+                <td>
+                    <input name="browserAcceptHeader" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserIP:</label>
+                </td>
+                <td>
+                    <input name="browserIP" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserJavaEnabled:</label>
+                </td>
+                <td>
+                    <input name="browserJavaEnabled" value="false">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserJavascriptEnabled:</label>
+                </td>
+                <td>
+                    <input name="browserJavascriptEnabled" value="true">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserLanguage:</label>
+                </td>
+                <td>
+                    <input name="browserLanguage" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserScreenHeight:</label>
+                </td>
+                <td>
+                    <input name="browserScreenHeight" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserScreenWidth:</label>
+                </td>
+                <td>
+                    <input name="browserScreenWidth" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserColorDepth:</label>
+                </td>
+                <td>
+                    <input name="browserColorDepth" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserTZ:</label>
+                </td>
+                <td>
+                    <input name="browserTZ" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>browserUserAgent:</label>
+                </td>
+                <td>
+                    <input name="browserUserAgent" value="">
+                </td>
+            </tr>
+
+            </tbody>
+
+
+        </table>
+    </form>
+    <button onclick="doAuto();return false;">doAuto</button>
+</div>
+
+</body>
+</html>
+

@@ -14,8 +14,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication(scanBasePackages = {"com.paytend"})
  public class AmexApplication {
-    @Autowired
-    ObjectMapper objectMapper;
 
 //    JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES,
 

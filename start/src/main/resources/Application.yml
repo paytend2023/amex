@@ -8,6 +8,7 @@ ds:
   zf:
     merNo: 1002
     supportedVersionUrl: https://test.sinopayservice.com/GwThreeds/authentication/v1/supportedVersion
+    authUrl: https://test.sinopayservice.com/GwThreeds/authentication/v1/auth
     publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Def2tyTs3sWg1HiLD3l/ECjdk0aVqIZaOScMYpcN4CINJ2G8egWVqCzGkBemg1l2gQMoSc7WeW1KZA5t4Qsr1H2IJRe8c26oeqf3hlJac0iWI55CN6Qslbzu0xSu2RqXfKrIiRYtu166unPS7zS6jffjViRzd1LBpiFjrc2w9p8KPMdBhzfUwDfFotPMBbwzW2Yt7PdVVtq1M3QiIpjm7SVVL8p5Js9UO4sctG4SAiXtmvTQM3fV019Zi4WGRi+L4c7aOOnotzcHr4meM/8QRnF1nLPIo6VVnMbuvR1FCarVvOpeVHyoEivRN8w9BhlATZP3Iftga+/IccUFWYutQIDAQAB
 
 spring:
@@ -18,12 +19,10 @@ spring:
     locale: zh
     # 设置全局时区
     time-zone: GMT+8
-    # 常用，全局设置pojo或被@JsonInclude注解的属性的序列化方式
-    default-property-inclusion: NON_NULL #不为空的属性才会序列化,具体属性可看JsonInclude.Include
     # 常规默认,枚举类SerializationFeature中的枚举属性为key，值为boolean设置jackson序列化特性,具体key请看SerializationFeature源码
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: true # 返回的java.util.date转换成timestamp
-      FAIL_ON_EMPTY_BEANS: true # 对象为空时是否报错，默认true
+      FAIL_ON_EMPTY_BEANS: false # 对象为空时是否报错，默认true
     # 枚举类DeserializationFeature中的枚举属性为key，值为boolean设置jackson反序列化特性,具体key请看DeserializationFeature源码
     deserialization:
       # 常用,json中含pojo不存在属性时是否失败报错,默认true
@@ -39,3 +38,16 @@ spring:
       ALLOW_SINGLE_QUOTES: true # 是否允许出现单引号,默认false
     # 枚举类JsonGenerator.Feature枚举类中的枚举属性为key，值为boolean设置jackson JsonGenerator特性，一般无需设置默认即可
     # JsonGenerator在jackson中负责编写json内容,具体特性请看JsonGenerator.Feature
+
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    prefix: classpath:/templates/
+    content-type: text/html
+    suffix: .htm
+
+
+
+
+
+

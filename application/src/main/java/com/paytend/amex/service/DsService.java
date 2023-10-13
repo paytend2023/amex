@@ -1,6 +1,8 @@
 package com.paytend.amex.service;
 
 import com.paytend.amex.facade.ds.RemoteDsService;
+import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
+import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,9 @@ public class DsService {
 
     public SupportedVersionRspDto supportedVersion(SupportedVersionReqDto versionReqDto) {
         return remoteDsService.doSupportedVersion(versionReqDto);
+    }
+
+    public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
+        return remoteDsService.doAuthentication(auth, threeDsServerTransId);
     }
 }

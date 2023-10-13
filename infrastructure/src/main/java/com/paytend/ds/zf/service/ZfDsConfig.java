@@ -17,4 +17,6 @@ public class ZfDsConfig {
     private String supportedVersionUrl;
     private String merNo;
     private String publicKey;
+    private String authUrl;
+    private String resultUrl;
 }

@@ -7,7 +7,7 @@ import lombok.Data;
  * @create 2023/9/15 09:26
  */
 @Data
-public class SupportedVersionRspDto {
+public class SupportedVersionRspDto extends BaseErrRspData{
 //    {
 //        "threeDSMethodURL": "https://dig3ds.cafis-paynet.jp:443/99660/",
 //            "endProtocolVersion": "2.2.0",
