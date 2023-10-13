@@ -1,8 +1,8 @@
 package com.paytend.amex.facade.ds.dto;
 
- import lombok.Builder;
+import lombok.Builder;
 import lombok.Data;
- import lombok.experimental.Tolerate;
+import lombok.experimental.Tolerate;
 
 /**
  * @author Sunny
@@ -10,12 +10,13 @@ import lombok.Data;
  */
 @Data
 @Builder
-
 public class SupportedVersionReqDto {
     String cardNo;
 
     String notificationURL;
+
     @Tolerate
-  public   SupportedVersionReqDto(){}
+    public SupportedVersionReqDto() {
+    }
 
 }

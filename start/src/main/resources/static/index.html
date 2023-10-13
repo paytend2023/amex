@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    　　<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        function test() {
+            var req = {cardNo: "375987000169800", notificationURL: "http://www.baidu.com"}
+            $.post("/ds/supportedVersion", req, function (ret) {
+                alert(ret)
+            });
+        }
+
+
+    </script>
 </head>
 <body>
+<h2 th:text="${message}">xxxxxx bbb</h2>
+
+<div>
+    <table>
+        <thead>
+        </thead>
+        <tr>
+            <td> 测试b aabb</td>
+        </tr>
+        <tr>
+            <td><input onclick="test();" type="button" value="test"></td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>
+
