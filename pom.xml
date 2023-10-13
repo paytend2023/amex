@@ -15,7 +15,6 @@
         <module>infrastructure</module>
         <module>application</module>
         <module>start</module>
-        <module>facade</module>
     </modules>
 
 
@@ -23,7 +22,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spring-boot.version>2.7.15</spring-boot.version>
-        <resource.delimiter>@</resource.delimiter>
+<!--        <resource.delimiter>@</resource.delimiter>-->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -86,12 +85,6 @@
             <dependency>
                 <groupId>com.paytend.amex</groupId>
                 <artifactId>application</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.paytend.amex</groupId>
-                <artifactId>facade</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 

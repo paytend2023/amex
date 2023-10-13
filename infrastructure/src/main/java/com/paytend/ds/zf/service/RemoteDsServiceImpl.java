@@ -3,8 +3,13 @@ package com.paytend.ds.zf.service;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.paytend.amex.remote.RemoteDsService;
-import com.paytend.amex.facade.ds.dto.*;
+import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
+import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
+import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
+import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
+import com.paytend.amex.ds.remote.RemoteDsService;
+import com.paytend.amex.ds.dto.QueryRespDto;
+
 import com.paytend.ds.zf.RSAUtils;
 
 import com.paytend.exception.CallRemoteException;
@@ -54,8 +59,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     }
 
 
-    @Override
-    public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
+     public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
         headers.put("threeDSServerTransID", Optional.of(threeDsServerTransId).get());
@@ -157,4 +161,6 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         // 使用 Jackson 将 JSON 字符串转换为 Java 对象
         // 处理 Java 对象
     }
+
+
 }

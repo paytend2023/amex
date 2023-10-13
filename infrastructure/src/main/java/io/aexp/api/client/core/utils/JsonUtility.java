@@ -17,8 +17,8 @@ package io.aexp.api.client.core.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
- import com.fasterxml.jackson.databind.SerializationFeature;
-import io.aexp.api.client.core.exceptions.JsonException;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.paytend.amex.exception.JsonException;
 
 import java.util.Map;
 

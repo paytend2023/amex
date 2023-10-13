@@ -4,10 +4,11 @@ import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.api.model.NotifyVo;
+
 import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
 import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
-import com.paytend.amex.facade.tx.dto.CommonRsp;
-import com.paytend.amex.biz.DsCommandService;
+import com.paytend.amex.CommonRsp;
+import com.paytend.amex.ds.DsCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;

@@ -3,10 +3,11 @@ package com.paytend.amex.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.api.model.AuthNotifyVo;
+
 import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
 import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
-import com.paytend.amex.facade.tx.dto.CommonRsp;
-import com.paytend.amex.biz.DsCommandService;
+import com.paytend.amex.CommonRsp;
+import com.paytend.amex.ds.DsCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

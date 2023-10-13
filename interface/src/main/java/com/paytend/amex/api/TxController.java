@@ -1,11 +1,11 @@
 package com.paytend.amex.api;
 
 
-import com.paytend.amex.facade.tx.dto.CommonRsp;
-import com.paytend.amex.facade.tx.dto.TxHeader;
-import com.paytend.amex.facade.tx.dto.req.Authorization;
-import com.paytend.amex.facade.tx.dto.rsp.AuthorizationRsp;
-import com.paytend.amex.biz.SafeKeyCommandService;
+import com.paytend.amex.CommonRsp;
+import com.paytend.amex.tx.dto.TxHeader;
+import com.paytend.amex.tx.dto.req.Authorization;
+import com.paytend.amex.tx.dto.rsp.AuthorizationRsp;
+import com.paytend.amex.tx.SafeKeyCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
