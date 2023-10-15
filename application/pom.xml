@@ -50,6 +50,16 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.paytend.amex</groupId>
+            <artifactId>facade</artifactId>
+         </dependency>
+
 
     </dependencies>
 </project>

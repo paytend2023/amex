@@ -15,6 +15,7 @@
         <module>infrastructure</module>
         <module>application</module>
         <module>start</module>
+        <module>facade</module>
     </modules>
 
 
@@ -22,7 +23,10 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spring-boot.version>2.7.15</spring-boot.version>
-<!--        <resource.delimiter>@</resource.delimiter>-->
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <org.projectlombok.version>1.18.28</org.projectlombok.version>
+        <!--        <resource.delimiter>@</resource.delimiter>-->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -87,6 +91,11 @@
                 <artifactId>application</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.paytend.amex</groupId>
+                <artifactId>facade</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
 
 
             <!--        https://mvnrepository.com/artifact/oracle/oracle-jdbc-->
@@ -113,6 +122,17 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>cglib</groupId>-->
+<!--                <artifactId>cglib</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
     <build>
@@ -121,10 +141,34 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>3.8.1</version>
                     <configuration>
-                        <source>8</source>
-                        <target>8</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <!-- See https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html -->
+                        <!-- Classpath elements to supply as annotation processor path. If specified, the compiler   -->
+                        <!-- will detect annotation processors only in those classpath elements. If omitted, the     -->
+                        <!-- default classpath is used to detect annotation processors. The detection itself depends -->
+                        <!-- on the configuration of annotationProcessors.                                           -->
+                        <!--                                                                                         -->
+                        <!-- According to this documentation, the provided dependency processor is not considered!   -->
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${org.projectlombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>

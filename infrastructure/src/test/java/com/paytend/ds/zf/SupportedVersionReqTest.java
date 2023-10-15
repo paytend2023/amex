@@ -1,6 +1,6 @@
 package com.paytend.ds.zf;
 
-import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
+import com.paytend.amex.ds.dto.SupportedVersionReqDto;
  import org.junit.jupiter.api.Test;
 
 

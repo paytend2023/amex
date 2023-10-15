@@ -1,6 +1,15 @@
 logging:
   level:
     root: INFO
+
+spring:
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    prefix: classpath:/templates/
+    content-type: text/html
+    suffix: .htm
+#test
 #ds:
 #  zf:
 #    merNo: 1002
@@ -9,7 +18,6 @@ logging:
 #    publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7Def2tyTs3sWg1HiLD3l/ECjdk0aVqIZaOScMYpcN4CINJ2G8egWVqCzGkBemg1l2gQMoSc7WeW1KZA5t4Qsr1H2IJRe8c26oeqf3hlJac0iWI55CN6Qslbzu0xSu2RqXfKrIiRYtu166unPS7zS6jffjViRzd1LBpiFjrc2w9p8KPMdBhzfUwDfFotPMBbwzW2Yt7PdVVtq1M3QiIpjm7SVVL8p5Js9UO4sctG4SAiXtmvTQM3fV019Zi4WGRi+L4c7aOOnotzcHr4meM/8QRnF1nLPIo6VVnMbuvR1FCarVvOpeVHyoEivRN8w9BhlATZP3Iftga+/IccUFWYutQIDAQAB
 #    versionNotifyUrl: https://2b145863i9.yicp.fun/view/supportedVersionNotify/
 #    versionNotifyUrl: http://180.168.215.67:9088/3ds/view/supportedVersionNotify/
-
 
 #pro
 ds:
@@ -22,14 +30,30 @@ ds:
     versionNotifyUrl: https://2b145863i9.yicp.fun/view/supportedVersionNotify/
     authNotifyUrl: https://2b145863i9.yicp.fun/ds/authNotify/
 
-  thymeleaf:
-    cache: false
-    encoding: utf-8
-    prefix: classpath:/templates/
-    content-type: text/html
-    suffix: .htm
+
 web:
   contextPah:
+
+#amex:
+#  merchant:
+#    url: https://apigateway2sma.americanexpress.com/merchant/v1/acquisitions/sellers
+#    client_key: mxEF9jNvLtSZ8dxoK6BNNtHqOH3Aurvq
+#    client_secret: Hv1AhE3O6g2GrQTUA3J19W77nS2A2jG3
+
+
+amex:
+  #QA 环境sm
+  merchant:
+    url: https://apigateway2sma-qa.americanexpress.com/merchant/v1/acquisitions/sellers
+    client_key: EJ1BDPJ7yg9qfsboMfRtrhAbAlA8NGfz
+    client_secret: JMAowP1k7AlNOdoWnw5qNPfI8Po9hRCU
+    #auth 测试环境
+  auth:
+    url: https://qwww318.americanexpress.com/IPPayments/inter/CardAuthorization.do
+    key_store: keystore.jks
+    passwd: 111111
+
+
 
 #spring:
 #  datasource:

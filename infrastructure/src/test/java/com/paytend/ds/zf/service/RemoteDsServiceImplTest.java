@@ -2,9 +2,9 @@ package com.paytend.ds.zf.service;
 
 import cn.hutool.core.date.DateUtil;
 
-import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
-import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
-import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
+import com.paytend.amex.ds.dto.AutherizationDsReqDto;
+import com.paytend.amex.ds.dto.SupportedVersionReqDto;
+import com.paytend.amex.ds.dto.SupportedVersionRspDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -15,9 +15,13 @@
 package io.aexp.api.client.core.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.paytend.amex.exception.JsonException;
 
 import java.util.Map;
@@ -27,6 +31,8 @@ import java.util.Map;
  */
 public class JsonUtility {
     private final ObjectMapper mapper;
+
+    private final XmlMapper xmlMapper;
     private final static JsonUtility INSTANCE = new JsonUtility();
 
     private JsonUtility() {
@@ -34,6 +40,12 @@ public class JsonUtility {
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        xmlMapper = new XmlMapper();
+        xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        xmlMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
     }
 
     public static JsonUtility getInstance() {
@@ -48,6 +60,14 @@ public class JsonUtility {
         }
     }
 
+    public <T> T getObject(String jsonString, TypeReference<T> typeReference) {
+        try {
+            return mapper.readValue(jsonString, typeReference);
+        } catch (Exception e) {
+            throw new JsonException("Exception mapping string to class, caused by " + e.getMessage(), e);
+        }
+    }
+
     public String getString(Object object) {
         try {
             return mapper.writeValueAsString(object);
@@ -55,6 +75,25 @@ public class JsonUtility {
             throw new JsonException("Exception writing object as string, caused by " + e.getMessage(), e);
         }
     }
+
+    public String getXml(Object obj) {
+        try {
+            return xmlMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new JsonException("Exception writing object as string, caused by " + e.getMessage(), e);
+        }
+    }
+
+    public <T> T xml2Obj(String xml, Class<T> objectClass) {
+        try {
+            return xmlMapper.readValue(xml, objectClass);
+        } catch (JsonProcessingException e) {
+            throw new JsonException("Exception writing object as string, caused by " + e.getMessage(), e);
+        }
+    }
+
+
+
 
     public String prettyString(String jsonString) {
         try {

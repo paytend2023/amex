@@ -3,9 +3,13 @@ package com.paytend.amex.api;
 
 import com.paytend.amex.CommonRsp;
 import com.paytend.amex.tx.dto.TxHeader;
-import com.paytend.amex.tx.dto.req.Authorization;
-import com.paytend.amex.tx.dto.rsp.AuthorizationRsp;
-import com.paytend.amex.tx.SafeKeyCommandService;
+import com.paytend.amex.tx.dto.req.AuthorizationDto;
+import com.paytend.amex.tx.dto.req.BatchAdminRequestDto;
+import com.paytend.amex.tx.dto.req.DataCaptureRequestDto;
+import com.paytend.amex.tx.dto.rsp.AuthorizationRspDto;
+import com.paytend.amex.tx.AmexAuthCommandService;
+import com.paytend.amex.tx.dto.rsp.BatchRespDto;
+import com.paytend.amex.tx.dto.rsp.DataCaptureRspDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,18 +27,37 @@ import java.util.Optional;
 public class TxController {
 
     @Resource
-    private SafeKeyCommandService safeKeyCommandService;
+    private AmexAuthCommandService amexAuthCommandService;
 
 
 
     @PostMapping(path = "auth")
-    public CommonRsp<AuthorizationRsp> auth(@RequestBody Authorization authorization,
-                                            @RequestHeader Map<String, String> headers) {
+    public CommonRsp<AuthorizationRspDto> auth(@RequestBody AuthorizationDto authorization,
+                                               @RequestHeader Map<String, String> headers) {
         log.info("auth>>>>>{} {}", authorization, headers);
-        AuthorizationRsp rsp = safeKeyCommandService.auth(authorization, buildHeader(headers));
+        AuthorizationRspDto rsp = amexAuthCommandService.auth(authorization, buildHeader(headers));
         log.info("auth rsp>>>>>  {}", rsp);
         return CommonRsp.OK(rsp);
     }
+
+    @PostMapping(path = "batchAdmin")
+    public CommonRsp<BatchRespDto> batchAdmin(@RequestBody BatchAdminRequestDto batchAdminRequestDto,
+                                         @RequestHeader Map<String, String> headers) {
+        log.info("auth>>>>>{} {}", batchAdminRequestDto, headers);
+        BatchRespDto rsp = amexAuthCommandService.batchAdmin(batchAdminRequestDto, buildHeader(headers));
+        log.info("auth rsp>>>>>  {}", rsp);
+        return CommonRsp.OK(rsp);
+    }
+    @PostMapping(path = "dataCapture")
+    public CommonRsp<DataCaptureRspDto> dataCapture(@RequestBody DataCaptureRequestDto dataCaptureRequest,
+                                                    @RequestHeader Map<String, String> headers) {
+        log.info("auth>>>>>{} {}", dataCaptureRequest, headers);
+        DataCaptureRspDto rsp = amexAuthCommandService.dataCapture(dataCaptureRequest, buildHeader(headers));
+        log.info("auth rsp>>>>>  {}", rsp);
+        return CommonRsp.OK(rsp);
+    }
+
+
 
 
 
@@ -45,13 +68,16 @@ public class TxController {
                 .country(Optional.of(headers.get("country")).get())
                 .merchNbr(Optional.of(headers.get("merchnbr")).get())
                 .region(Optional.of(headers.get("region")).get())
+                .message(Optional.of(headers.get("message")).get())
+                //http 获取头都是小写
+                .rtInd(Optional.of(headers.get("rtind")).get())
                 .build();
     }
 
     public TxController() {
     }
 
-    public TxController(SafeKeyCommandService safeKeyCommandService) {
-        this.safeKeyCommandService = safeKeyCommandService;
+    public TxController(AmexAuthCommandService amexAuthCommandService) {
+        this.amexAuthCommandService = amexAuthCommandService;
     }
 }

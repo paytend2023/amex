@@ -16,12 +16,11 @@ package io.aexp.api.client.core.configuration;
 
 /**
  * Required configuration keys.
+ * @author XIXI
  */
 public interface ConfigurationKeys {
 
     String CLIENT_KEY = "CLIENT_KEY";
     String CLIENT_SECRET = "CLIENT_SECRET";
     String BASE_URL = "BASE_URL";
-    
-
 }

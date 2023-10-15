@@ -3,10 +3,10 @@ package com.paytend.ds.zf.service;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.paytend.amex.facade.ds.dto.AutherizationDsReqDto;
-import com.paytend.amex.facade.ds.dto.AutherizationDsRspDto;
-import com.paytend.amex.facade.ds.dto.SupportedVersionReqDto;
-import com.paytend.amex.facade.ds.dto.SupportedVersionRspDto;
+import com.paytend.amex.ds.dto.AutherizationDsReqDto;
+import com.paytend.amex.ds.dto.AutherizationDsRspDto;
+import com.paytend.amex.ds.dto.SupportedVersionReqDto;
+import com.paytend.amex.ds.dto.SupportedVersionRspDto;
 import com.paytend.amex.ds.remote.RemoteDsService;
 import com.paytend.amex.ds.dto.QueryRespDto;
 
@@ -59,6 +59,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     }
 
 
+     @Override
      public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
@@ -138,7 +139,7 @@ public class RemoteDsServiceImpl implements RemoteDsService {
                 .build();
 
         // 发送请求
-        Response response = null;
+        Response response;
         try {
             response = HTTP_CLIENT.newCall(request).execute();
         } catch (IOException e) {

@@ -1,12 +1,18 @@
 package com.paytend.amex.tx;
 
-import com.paytend.amex.tx.dto.XmlRequest;
-import com.paytend.amex.utils.XmlUtility;
-import okhttp3.*;
 
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+
+import javax.annotation.PostConstruct;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
+import java.io.File;
+import java.io.FileInputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -15,28 +21,42 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author gudongyang
+ * @author xixi
  */
+@Slf4j
+@Component
 public class TransCommUtils {
 
-    private static Map<String, String> headers = new HashMap<>();
-
-    private TransCommUtils() {
-    }
-
+    private static TransCommUtils COMM;
+    final private static Map<String, String> HEADERS = new HashMap<>();
+    final private static Character LOCK = '1';
     private static OkHttpClient httpClient;
 
-    static {
+
+    @Value("${amex.auth.key_store: }")
+    private String keyStore;
+
+    @Value("${amex.auth.passwd: }")
+    private String pwd;
+
+    public TransCommUtils() {
+
+    }
+
+    @PostConstruct
+
+    public void init() {
+        log.info("keyStore: {}, password: {} ", keyStore, pwd);
         KeyStore keyStore = null;
         try {
-            keyStore = loadKeyStore("keystore.jks", "111111");
+            keyStore = loadKeyStore(this.keyStore, pwd);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         SSLContext sslContext = null;
         try {
-            sslContext = createSSLContext(keyStore, "111111");
+            sslContext = createSSLContext(keyStore, pwd);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,74 +78,64 @@ public class TransCommUtils {
                 }).connectTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS)
                 .build();
 
-        headers.put("Content-Type", "plain/text");
-        headers.put("User-Agent", "Application;");
-        headers.put("Cashe-Control", "no-cache");
-        headers.put("Connection", "Keep-Alive");
+        HEADERS.put("Content-Type", "plain/text");
+        HEADERS.put("User-Agent", "Application;");
+        HEADERS.put("Cache-Control", "no-cache");
+        HEADERS.put("Connection", "Keep-Alive");
     }
 
-    private static final MediaType TEXT_MEDIA_TYPE = MediaType.parse("plain/text;");
 
-
-    public static String toRequestString(String xml) {
-        return "AuthorizationRequestParam=<?xml version=\"1.0\" encoding=\"utf-8\"?>" + XmlUtility.getInstance().formatXml(xml);
+    public static TransCommUtils getInstance() {
+        if (COMM == null) {
+            synchronized (LOCK) {
+                COMM = new TransCommUtils();
+            }
+        }
+        return COMM;
     }
 
-//    public static String sendXml(String xml, Map<String, String> customHeaders) throws Exception {
-//        HttpUrl httpUrl = HttpUrl.parse(baseUrl);
-//        HttpUrl.Builder httpUrlBuilder = httpUrl.newBuilder();
-//        Request.Builder builder = new Request.Builder()
-//                .url(httpUrlBuilder.build())
-//                .post(RequestBody.create(TEXT_MEDIA_TYPE, toRequestString(xml)));
-//        for (Map.Entry<String, String> header : headers.entrySet()) {
-//            System.out.println(header.getKey() + " = " + header.getValue());
-//            builder.addHeader(header.getKey(), header.getValue());
-//        }
-//        for (Map.Entry<String, String> header : customHeaders.entrySet()) {
-//            System.out.println(header.getKey() + " = " + header.getValue());
-//            builder.addHeader(header.getKey(), header.getValue());
-//        }
-//
-//        Request request = builder.build();
-//        Response response = httpClient.newCall(request).execute();
-//        String tmp = response.body().string();
-//        System.out.println("" + response.code());
-//        System.out.println(XmlUtility.getInstance().xmlBeautifulFormat(tmp));
-//        return tmp;
-//    }
+    public static OkHttpClient get(){
+        return httpClient;
+    }
 
-    public static String sendXml(String url, XmlRequest xmlRequest, Map<String, String> customHeaders) throws Exception {
+
+     private static final MediaType TEXT_MEDIA_TYPE = MediaType.parse("plain/text;");
+
+    public String sendXml(String url, XmlRequest xmlRequest, Map<String, String> customHeaders) throws Exception {
         HttpUrl httpUrl = HttpUrl.parse(url);
         HttpUrl.Builder httpUrlBuilder = httpUrl.newBuilder();
+        String xml = xmlRequest.toXml();
+        log.info("url:{}\n {} ", url, xml);
         Request.Builder builder = new Request.Builder()
                 .url(httpUrlBuilder.build())
-                .post(RequestBody.create(TEXT_MEDIA_TYPE, xmlRequest.toXml()));
-        for (Map.Entry<String, String> header : headers.entrySet()) {
+                .post(RequestBody.create(TEXT_MEDIA_TYPE, xml));
+        for (Map.Entry<String, String> header : HEADERS.entrySet()) {
+            log.info(header.getKey() + " = " + header.getValue());
             builder.addHeader(header.getKey(), header.getValue());
         }
         for (Map.Entry<String, String> header : customHeaders.entrySet()) {
+            log.info((header.getKey() + " = " + header.getValue()));
             builder.addHeader(header.getKey(), header.getValue());
         }
 
         Request request = builder.build();
         Response response = httpClient.newCall(request).execute();
-        String tmp = response.body().string();
-        return tmp;
+        return response.body().string();
     }
 
     private static KeyStore loadKeyStore(String keystorePath, String keystorePassword) throws Exception {
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        ClassLoader classLoader = TransCommUtils.class.getClassLoader();
-        keyStore.load(classLoader.getResourceAsStream(keystorePath), keystorePassword.toCharArray());
+        File file = ResourceUtils.getFile("classpath:" + keystorePath);
+        keyStore.load(new FileInputStream(file), keystorePassword.toCharArray());
         return keyStore;
     }
 
-    private static SSLContext createSSLContext(KeyStore keyStore, String keyPassword) throws NoSuchAlgorithmException, UnrecoverableKeyException, KeyStoreException, KeyManagementException {
+    private static SSLContext createSSLContext(KeyStore keyStore, String keyPassword)
+            throws NoSuchAlgorithmException, UnrecoverableKeyException, KeyStoreException, KeyManagementException {
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         keyManagerFactory.init(keyStore, keyPassword.toCharArray());
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(keyManagerFactory.getKeyManagers(), null, null);
         return sslContext;
     }
-
 }
