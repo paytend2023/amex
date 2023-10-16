@@ -17,5 +17,5 @@
 5 AmexFacade 只是简单的一个通讯接口
 6 添加页面测试 amex_test.html
 7 jucai8583 增加 com.gd.si.iso8583.RestInterceptor.java  //通讯相关
-8 目前配置都在 application-devh.yaml中测试运行别的配置要加参数
+8 目前配置默认都在都在 application-devh.yaml中测试运行别的配置要加参数
 
