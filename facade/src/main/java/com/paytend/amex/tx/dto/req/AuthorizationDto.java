@@ -1,6 +1,5 @@
 package com.paytend.amex.tx.dto.req;
 
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -77,6 +76,11 @@ public class AuthorizationDto extends BaseFields  {
     @Tolerate
     public AuthorizationDto() {
     }
+
+    public void setEcommerceAuthorizationValue(){
+        this.setMsgTypId("1100");
+    }
+
 
 //    public String toXMLString() {
 //        return XmlUtility.getInstance().getString(this);

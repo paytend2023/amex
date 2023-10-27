@@ -35,6 +35,8 @@ public class TxController {
     public CommonRsp<AuthorizationRspDto> auth(@RequestBody AuthorizationDto authorization,
                                                @RequestHeader Map<String, String> headers) {
         log.info("auth>>>>>{} {}", authorization, headers);
+        authorization.setEcommerceAuthorizationValue();
+        log.info("MsgTypId:" + authorization.getMsgTypId());
         AuthorizationRspDto rsp = amexAuthCommandService.auth(authorization, buildHeader(headers));
         log.info("auth rsp>>>>>  {}", rsp);
         return CommonRsp.OK(rsp);
