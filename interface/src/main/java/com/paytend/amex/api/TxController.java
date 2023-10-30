@@ -11,6 +11,7 @@ import com.paytend.amex.tx.AmexAuthCommandService;
 import com.paytend.amex.tx.dto.rsp.BatchRespDto;
 import com.paytend.amex.tx.dto.rsp.DataCaptureRspDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,7 +23,7 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "tx")
+@RequestMapping(value = "tx" ,produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class TxController {
 
