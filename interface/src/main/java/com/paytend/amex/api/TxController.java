@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "tx" ,produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "tx", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class TxController {
 
@@ -31,8 +31,7 @@ public class TxController {
     private AmexAuthCommandService amexAuthCommandService;
 
 
-
-    @PostMapping(path = "auth")
+    @PostMapping(path = "auth", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonRsp<AuthorizationRspDto> auth(@RequestBody AuthorizationDto authorization,
                                                @RequestHeader Map<String, String> headers) {
         log.info("auth>>>>>{} {}", authorization, headers);
@@ -43,15 +42,16 @@ public class TxController {
         return CommonRsp.OK(rsp);
     }
 
-    @PostMapping(path = "batchAdmin")
+    @PostMapping(path = "batchAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonRsp<BatchRespDto> batchAdmin(@RequestBody BatchAdminRequestDto batchAdminRequestDto,
-                                         @RequestHeader Map<String, String> headers) {
+                                              @RequestHeader Map<String, String> headers) {
         log.info("auth>>>>>{} {}", batchAdminRequestDto, headers);
         BatchRespDto rsp = amexAuthCommandService.batchAdmin(batchAdminRequestDto, buildHeader(headers));
         log.info("auth rsp>>>>>  {}", rsp);
         return CommonRsp.OK(rsp);
     }
-    @PostMapping(path = "dataCapture")
+
+    @PostMapping(path = "dataCapture", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonRsp<DataCaptureRspDto> dataCapture(@RequestBody DataCaptureRequestDto dataCaptureRequest,
                                                     @RequestHeader Map<String, String> headers) {
         log.info("auth>>>>>{} {}", dataCaptureRequest, headers);
@@ -59,10 +59,6 @@ public class TxController {
         log.info("auth rsp>>>>>  {}", rsp);
         return CommonRsp.OK(rsp);
     }
-
-
-
-
 
 
     private TxHeader buildHeader(Map<String, String> headers) {
