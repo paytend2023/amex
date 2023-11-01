@@ -1,6 +1,7 @@
 package com.paytend.amex.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -61,8 +62,15 @@ public class XmlUtility {
         try {
             return xmlMapper.readValue(str, clazz);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
+            throw new JsonException("Exception writing object as string, caused by " + e.getMessage(), e);
+        }
+    }
+
+    public <T> T readFromXML(String str, TypeReference<T> typeReference) {
+        try {
+            return xmlMapper.readValue(str, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new JsonException("Exception writing object as string, caused by " + e.getMessage(), e);
         }
     }
 

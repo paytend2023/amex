@@ -73,8 +73,6 @@ public class TxController {
                 .build();
     }
 
-    public TxController() {
-    }
 
     public TxController(AmexAuthCommandService amexAuthCommandService) {
         this.amexAuthCommandService = amexAuthCommandService;
