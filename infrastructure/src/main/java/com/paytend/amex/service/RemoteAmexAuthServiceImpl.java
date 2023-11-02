@@ -128,7 +128,7 @@ public class RemoteAmexAuthServiceImpl implements RemoteAmexAuthService {
         Map<String, String> headMap = txHeader.convertToMap();
         headMap.put("url", url);
         String responseStr = TransCommUtils.getInstance().sendXml(url, auth, headMap);
-        log.info("repXML:{}", responseStr);
+        log.info("respXML:{}", responseStr);
         RS response = XmlUtility.getInstance().readFromXML(responseStr, remoteRspType);
         return jsonUtility.getObject(jsonUtility.getString(response), rspDtoType);
     }
