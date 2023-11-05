@@ -48,8 +48,7 @@ public class PointOfServiceDataDto {
      * 6 Other
      * Bit 22.2
      */
-//    @JacksonXmlProperty(localName = "CMAuthnCpblCd")
-    String CMAuthnCpblCd;
+     String CMAuthnCpblCd;
 
     /**
      * 0 Unspecified, unknown, track data present but incomplete or truncated
@@ -121,8 +120,7 @@ public class PointOfServiceDataDto {
      * <p>
      * Bit 22.5
      */
-//    @JacksonXmlProperty(localName = "CMPresentCd")
-    String CMPresentCd;
+     String CMPresentCd;
     /**
      * 0 Card not present
      * 1 Card present
@@ -184,8 +182,7 @@ public class PointOfServiceDataDto {
      * <p>
      * Bit 22.8
      */
-//    @JacksonXmlProperty(localName = "CMAuthnMthdCd")
-    String CMAuthnMthdCd;
+     String CMAuthnMthdCd;
 
     /**
      * 0 Not authenticated, unknown
@@ -204,7 +201,6 @@ public class PointOfServiceDataDto {
      * <p>
      * Bit 22.2
      */
-//    @JacksonXmlProperty(localName = "CMAuthnEnttyCd")
     String CMAuthnEnttyCd;
 
     /**
@@ -219,7 +215,6 @@ public class PointOfServiceDataDto {
     /**
      * Bit 22.2
      */
-//    @JacksonXmlProperty(localName = "PINCptrCpblCd")
     String PINCptrCpblCd;
 
     @Tolerate

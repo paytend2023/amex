@@ -1,18 +1,34 @@
 package com.paytend.amex.tx.dto.req;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+
 /**
  * @author XX
- * 
  */
 @Setter
 @Getter
 @SuperBuilder
+
+@Schema(
+        type = "object", subTypes = {BatchAdminRequestDto.class, DataCaptureRequestDto.class}
+)
+
 public class BaseSubmitRequestDto {
+
+
+    @Schema(description = " 第3域 版本号",
+            requiredMode = REQUIRED,
+            example = "12010000",
+            type = "string",
+            maxLength = 8,
+            minLength = 8
+    )
     /**
      * Field 3
      * Data Length: 8 bytes, fixed
@@ -22,9 +38,15 @@ public class BaseSubmitRequestDto {
      * <p>
      * Example:<Version>12010000</Version>
      */
-    protected String Version;
+    protected String version;
 
 
+    @Schema(description = " 第4域 SE 号和货币编号相关,一个机构一个货币一个SE",
+            requiredMode = REQUIRED,
+            example = "5021011432",
+            type = "Integer",
+            maxLength = 15
+    )
     /**
      * Field 4
      * Data Length: 15 bytes, maximum
@@ -38,8 +60,16 @@ public class BaseSubmitRequestDto {
      * <p>
      * Example:<MerId>5021011432</MerId>
      */
-    protected String MerId;
+    protected String merId;
 
+
+    @Schema(description = " 第5域 终端标识",
+            requiredMode = REQUIRED,
+            example = "5021011432",
+            type = "Integer",
+            maxLength = 8,
+            name = "merTrmnlId"
+    )
     /**
      * Field 5
      * Data Length: 8 bytes, maximum
@@ -49,8 +79,17 @@ public class BaseSubmitRequestDto {
      * <p>
      * Example:<MerTrmnlId>80000011</MerTrmnlId>
      */
-    protected String MerTrmnlId;
+    protected String merTrmnlId;
 
+
+
+    @Schema(description = " 第6域 批次号 同一商户或者SE不能重复",
+            requiredMode = REQUIRED,
+            example = "502101",
+            type = "Integer",
+            maxLength = 6,
+            name =""
+    )
     /**
      * Data Length: 6 bytes, maximum
      * Data Element Type: Numeric
@@ -61,7 +100,7 @@ public class BaseSubmitRequestDto {
      * <p>
      * Example:<BatchID>481035</BatchID>
      */
-    protected String BatchID;
+    protected String batchID;
 
     @Tolerate
     public BaseSubmitRequestDto() {

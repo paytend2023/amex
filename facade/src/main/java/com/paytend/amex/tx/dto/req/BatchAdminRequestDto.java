@@ -1,8 +1,8 @@
 package com.paytend.amex.tx.dto.req;
 
-//import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-//import com.paytend.amex.tx.dto.XmlRequest;
-//import com.paytend.amex.utils.XmlUtility;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -15,12 +15,11 @@ import lombok.experimental.Tolerate;
 @Getter
 @Setter
 @SuperBuilder
-//@JacksonXmlRootElement(localName = "BatchAdminRequest")
 
-//implements XmlRequest
+@Schema(description = "批次管理实体")
 public class BatchAdminRequestDto extends BaseSubmitRequestDto {
 
-
+    @Schema(description = "01 开批次  02 关闭批次  04批次查询 ", name = "batchOperation", requiredMode = Schema.RequiredMode.REQUIRED)
     /**
      * Data Length: 2 bytes
      * Data Element Type: Numeric
@@ -37,7 +36,10 @@ public class BatchAdminRequestDto extends BaseSubmitRequestDto {
      * <p>
      * Example: <BatchOperation>01</BatchOperation>
      */
-    protected String BatchOperation;
+    protected String batchOperation;
+
+
+    @Schema(hidden = true, name = "returnBatchSummary", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 
     /**
      * Data Length: 2 bytes
@@ -52,11 +54,15 @@ public class BatchAdminRequestDto extends BaseSubmitRequestDto {
      * 00 = No summary
      * 01 = Send summary
      */
-    protected String ReturnBatchSummary;
+    protected String returnBatchSummary;
 
 
-    protected CardAcceptorDetailDto CardAcceptorDetail;
+    @Schema(description = "商户信息数据", name = "cardAcceptorDetail",
+            type = "object", requiredMode = Schema.RequiredMode.REQUIRED)
 
+    protected CardAcceptorDetailDto cardAcceptorDetail;
+
+    @Schema(description = " SE编号 ", name = "submitterCode", requiredMode = Schema.RequiredMode.REQUIRED)
     /**
      * Data Length: 10 bytes 10 bytes, maximum
      * Data Element Type: Alphanumeric
@@ -69,15 +75,10 @@ public class BatchAdminRequestDto extends BaseSubmitRequestDto {
      * <p>
      * Example: <SubmitterCode>1234567890</SubmitterCode>
      */
-    protected String SubmitterCode;
+    protected String submitterCode;
 
     @Tolerate
     public BatchAdminRequestDto() {
     }
 
-//    @Override
-//    public String toXml() {
-//        String xml = XmlUtility.getInstance().getString(this);
-//        return "AuthorizationRequestParam=<?xml version=\"1.0\" encoding=\"utf-8\"?>" + XmlUtility.getInstance().formatXml(xml);
-//    }
 }

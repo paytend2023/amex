@@ -5,7 +5,6 @@ import com.paytend.amex.tx.dto.req.DataCaptureRequestDto;
 import com.paytend.amex.tx.dto.req.PointOfServiceDataDto;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.Map;
 
 
@@ -18,12 +17,12 @@ public class TestAmexAuth {
 
     CardAcceptorDetailDto.CardAcceptorDetailDtoBuilder
             cardAcceptorDetailBuilder = CardAcceptorDetailDto.builder()
-            .CardAcptNm("PAYTEND EUROPE UAB")
-            .CardAcptStreetNm("Vilnius City sav")
-            .CardAcptCityNm("Vilnius")
-            .CardAcptPostCd("01113")
-            .CardAcptRgnCd("58")
-            .CardAcptCtryCd("440");
+            .cardAcptNm("PAYTEND EUROPE UAB")
+            .cardAcptStreetNm("Vilnius City sav")
+            .cardAcptCityNm("Vilnius")
+            .cardAcptPostCd("01113")
+            .cardAcptRgnCd("58")
+            .cardAcptCtryCd("440");
 
     @Test
     public void testBatchDataOpen() {
@@ -35,14 +34,14 @@ public class TestAmexAuth {
 
 //            logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> batchOpen:"+batchID );
         BatchAdminRequestDto batchOpen = BatchAdminRequestDto.builder()
-                .Version(String.valueOf(version))
-                .MerId(merId)
-                .BatchID(String.valueOf(batchID))
-                .MerTrmnlId(termId)
+                .version(String.valueOf(version))
+                .merId(merId)
+                .batchID(String.valueOf(batchID))
+                .merTrmnlId(termId)
                 //open
-                .BatchOperation("01")
-                .CardAcceptorDetail(cardAcceptorDetailBuilder.build())
-                .SubmitterCode(submitterCode)
+                .batchOperation("01")
+                .cardAcceptorDetail(cardAcceptorDetailBuilder.build())
+                .submitterCode(submitterCode)
                 .build();
 
         //测试结算参数
@@ -78,14 +77,14 @@ public class TestAmexAuth {
         String submitterCode = "8038464327";
         String respXml = null;
         BatchAdminRequestDto batchClosed = BatchAdminRequestDto.builder()
-                .Version(String.valueOf(version))
-                .MerId(merId)
-                .BatchID(String.valueOf(batchID))
-                .MerTrmnlId(termId)
+                .version(String.valueOf(version))
+                .merId(merId)
+                .batchID(String.valueOf(batchID))
+                .merTrmnlId(termId)
                 //close
-                .BatchOperation("02")
-                .CardAcceptorDetail(cardAcceptorDetailBuilder.build())
-                .SubmitterCode(submitterCode)
+                .batchOperation("02")
+                .cardAcceptorDetail(cardAcceptorDetailBuilder.build())
+                .submitterCode(submitterCode)
                 .build();
 
         //测试结算参数
@@ -127,25 +126,25 @@ public class TestAmexAuth {
                 .PINCptrCpblCd("0");
 
         DataCaptureRequestDto dataCaptureRequest = DataCaptureRequestDto.builder()
-                .Version(String.valueOf(version))
-                .MerId(merId)
-                .BatchID(String.valueOf(batchID))
-                .MerTrmnlId(termId)
-                .RefNumber(RefNumber)
-                .CardNbr(374500261001009L)
+                .version(String.valueOf(version))
+                .merId(merId)
+                .batchID(String.valueOf(batchID))
+                .merTrmnlId(termId)
+                .refNumber(RefNumber)
+                .cardNbr(374500261001009L)
                 //yyyyMMdd
-                .TransDt("20231015")
-                .TransAmt(1600)
+                .transDt("20231015")
+                .transAmt(1600)
                 //Euro
-                .TransCurrCd("978")
-                .TransProcCd(TransProcCd)
-                .TransId(TransId)  //交易唯一标识
-                .ElecComrceInd("05")
-                .TransAprvCd(TransAprvCd) //授权码
-                .PointOfServiceData(pointOfServiceDataBuilder.build())
+                .transCurrCd("978")
+                .transProcCd(TransProcCd)
+                .transId(TransId)  //交易唯一标识
+                .elecComrceInd("05")
+                .transAprvCd(TransAprvCd) //授权码
+                .pointOfServiceData(pointOfServiceDataBuilder.build())
 //                .DefPaymentPlan("0005")
-                .MerCtgyCd("4111")
-                .SellId("1234QR7890")
+                .merCtgyCd("4111")
+                .sellId("1234QR7890")
                 .build();
 
         Map<String, String> dataCaptureHeaders = TxHeader.builder()

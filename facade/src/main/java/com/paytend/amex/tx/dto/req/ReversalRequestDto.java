@@ -66,12 +66,12 @@ public class ReversalRequestDto extends BaseFields
     OriginalDataElementsDto OriginalDataElementsDto;
 //
 //    @Override
-//    public String toXml() {
+//    protected String toXml() {
 //        String xml = XmlUtility.getInstance().getString(this);
 //        return "AuthorizationRequestParam=<?xml version=\"1.0\" encoding=\"utf-8\"?>" + XmlUtility.getInstance().formatXml(xml);
 //    }
 
-//    public ReversalRequest(OriginalDataElements originalDataElements, Authorization authorization) {
+//    protected ReversalRequest(OriginalDataElements originalDataElements, Authorization authorization) {
 ////        BeanUtil.copyProperties(authorization, this);
 //        this.OriginalDataElements = originalDataElements;
 //    }

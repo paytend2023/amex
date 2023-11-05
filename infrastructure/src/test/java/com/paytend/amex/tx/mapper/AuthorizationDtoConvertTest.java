@@ -58,12 +58,12 @@ class AuthorizationDtoConvertTest {
 
     CardAcceptorDetailDto.CardAcceptorDetailDtoBuilder
             cardAcceptorDetailBuilder = CardAcceptorDetailDto.builder()
-            .CardAcptNm("PAYTEND EUROPE UAB")
-            .CardAcptStreetNm("Vilnius City sav")
-            .CardAcptCityNm("Vilnius")
-            .CardAcptPostCd("01113")
-            .CardAcptRgnCd("58")
-            .CardAcptCtryCd("440");
+            .cardAcptNm("PAYTEND EUROPE UAB")
+            .cardAcptStreetNm("Vilnius City sav")
+            .cardAcptCityNm("Vilnius")
+            .cardAcptPostCd("01113")
+            .cardAcptRgnCd("58")
+            .cardAcptCtryCd("440");
 
     CardNotPresentDataDto.CardNotPresentDataDtoBuilder
             cardNotPresentDataBuilder = CardNotPresentDataDto.builder()
@@ -87,7 +87,7 @@ class AuthorizationDtoConvertTest {
 
 
     @Test
-    public void testMapping() {
+    protected void testMapping() {
         AuthorizationFactory.AuthorizationConfig config =
                 AuthorizationFactory.AuthorizationConfig.builder()
                         .authorizationBuilder(authorizationBuilder)
@@ -109,7 +109,7 @@ class AuthorizationDtoConvertTest {
     }
 
     @Test
-    public void testMapping1() {
+    protected void testMapping1() {
         AuthorizationFactory.AuthorizationConfig config =
                 AuthorizationFactory.AuthorizationConfig.builder()
                         .authorizationBuilder(authorizationBuilder)

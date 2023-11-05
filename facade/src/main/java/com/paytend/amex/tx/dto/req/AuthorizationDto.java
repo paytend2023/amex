@@ -1,5 +1,6 @@
 package com.paytend.amex.tx.dto.req;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 
 /**
- * @author  XIXI
+ * @author XIXI
  */
 @SuperBuilder
 @Getter
@@ -55,7 +56,7 @@ import lombok.experimental.Tolerate;
 //        })
 
 
-//implements XmlRequest
+@Schema(description = "授权结构体")
 public class AuthorizationDto extends BaseFields  {
 
 
@@ -68,7 +69,6 @@ public class AuthorizationDto extends BaseFields  {
      * bit 63
      * todo
      */
-//    @JacksonXmlProperty(localName = "ValidationInformation")
     @Setter(AccessLevel.NONE)
     private VerificationInformation63Dto ValidationInformation63;
 
@@ -82,14 +82,4 @@ public class AuthorizationDto extends BaseFields  {
     }
 
 
-//    public String toXMLString() {
-//        return XmlUtility.getInstance().getString(this);
-//    }
-
-
-//    @Override
-//    public String toXml() {
-//        String xml = XmlUtility.getInstance().getString(this);
-//        return "AuthorizationRequestParam=<?xml version=\"1.0\" encoding=\"utf-8\"?>" + XmlUtility.getInstance().formatXml(xml);
-//    }
 }

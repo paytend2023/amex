@@ -1,5 +1,6 @@
 package com.paytend.amex.tx.dto.rsp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,28 +11,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BatchRespDto {
-    /**
-     * <BatchAdminResponse>
-     * <Version>12010000</Version>
-     * <MerId>8127921740</MerId>
-     * <MerTrmnlId>80000011</MerTrmnlId>
-     * <BatchID>100005</BatchID>
-     * <BatchStatus>001</BatchStatus>
-     * <BatchStatusText>Close</BatchStatusText>
-     * </BatchAdminResponse>
-     */
+public class BatchRespDto extends BaseBatchRespDto {
 
-    String version;
-    String merId;
-    String merTrmnlId;
-    String batchID;
-    String batchStatus;
-    String batchStatusText;
+    @Schema(description = "000 成功,参考 XML_GFSG_FINAL.pdf 9.1")
+    private String batchStatus;
 
-//    public static BatchResp createByXml(String xml) {
-//        return XmlUtility.getInstance().readFromXML(xml, BatchResp.class);
-//    }
-
+    @Schema(description = "状态描述")
+    private String batchStatusText;
 
 }

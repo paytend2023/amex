@@ -97,7 +97,7 @@ public class RemoteAmexAuthServiceImpl implements RemoteAmexAuthService {
                 },
                 new TypeReference<DataCaptureRequest>() {
                 },
-                new TypeReference<BatchResp>() {
+                new TypeReference<DataCaptureRspDto>() {
                 });
     }
 

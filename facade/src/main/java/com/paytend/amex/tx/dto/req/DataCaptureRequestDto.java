@@ -1,21 +1,33 @@
 package com.paytend.amex.tx.dto.req;
 
-//import com.paytend.amex.tx.dto.XmlRequest;
-//import com.paytend.amex.utils.XmlUtility;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.experimental.Tolerate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.NOT_REQUIRED;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+
 /**
- * @author XX
+ * 参考文档
+ * XML_GFSG_FINAL.pdf
+ *
+ * @author XIXI
  */
 @Getter
 @Setter
 @SuperBuilder
-public class DataCaptureRequestDto extends BaseSubmitRequestDto
-//        implements XmlRequest
-{
 
+public class DataCaptureRequestDto extends BaseSubmitRequestDto {
+    @NotBlank
+    @Size(min = 0, max = 13)
+    @Schema(description = " 第8域 同一个submitter 同一个批次唯一",
+            requiredMode = REQUIRED,
+            example = "123456", maxLength = 13)
     /**
      * Field 8
      * Data Length: 13 bytes
@@ -25,8 +37,9 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * This is important for identifying VOID capture messages.
      * Example: <RefNumber>123456</RefNumber>
      */
-    protected String RefNumber;
+    protected String refNumber;
 
+    @Schema(description = " 第9域 可选可以关联订单用在对账上", requiredMode = NOT_REQUIRED, example = "123456", maxLength = 30)
     /**
      * Field 9
      * Data Length: 30 bytes
@@ -45,9 +58,10 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      *
      * <InvRefNbr>123456</InvRefNbr>
      */
-    protected String InvRefNbr;
+    protected String invRefNbr;
 
 
+    @Schema(description = " 卡号", title = "卡号", requiredMode = REQUIRED, example = "XXXXXXXXXXXXXXX", maxLength = 19)
     /**
      * Data Length: 19 bytes, maximum
      * Data Element Type: Numeric
@@ -62,8 +76,10 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * in the American Express Global Codes & Information Guide.
      * Example: <CardNbr>XXXXXXXXXXXXXXX</CardNbr>
      */
-    protected long CardNbr;
+    protected long cardNbr;
 
+
+    @Schema(description = " 词条卡有效期 YYMM", requiredMode = NOT_REQUIRED, example = "2309", minLength = 4, maxLength = 4)
     /**
      * Data Length: 4 bytes, fixed
      * Data Element Type: Numeric
@@ -79,8 +95,9 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * the ability to provide and transmit appropriate and meaningful information in this optional field,
      * as well as all required fields.
      */
-    protected String CardExprDt;
+    protected String cardExprDt;
 
+    @Schema(description = " 交易日期 YYYYMMDD", requiredMode = REQUIRED, example = "20230911", minLength = 8, maxLength = 8)
 
     /**
      * Data Length: 8 bytes, fixed
@@ -96,8 +113,9 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * For example, February 16, 2011, would be entered as: 20110216
      * Example: <TransDt>20110216</TransDt>
      */
-    protected String TransDt;
+    protected String transDt;
 
+    @Schema(description = " 交易时间 HHMMSS", requiredMode = REQUIRED, example = "20230911", minLength = 6, maxLength = 6)
     /**
      * Data Length: 6 bytes, fixed
      * Data Element Type: Numeric
@@ -113,8 +131,9 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * <p>
      * Example: <TransTm>143000</TransTm>
      */
-    protected String TransTm;
+    protected String transTm;
 
+    @Schema(description = "交易金额，单位一般为货币的最小单位分", requiredMode = REQUIRED, example = "20230911", minLength = 12, maxLength = 12)
 
     /**
      * Data Length: 12 bytes, maximum
@@ -126,22 +145,34 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * <p>
      * Example: <TransAmt>10000</TransAmt>
      */
-    protected long TransAmt;
+    protected long transAmt;
+
+    @Schema(description = "TransAmt 对应的货币代码", requiredMode = REQUIRED, example = "840", minLength = 3, type = "Integer", maxLength = 3)
 
     /**
      * Data Length:3 bytes, fixed
      * Data Element Type: Alphanumeric
      * Required Field: Yes
-     * Description: his field contains the code of the currency used to execute the original transaction and corresponds to the currency used for the TransAmt field in this Data Capture Request Message.
-     * This field must also correspond to the currency specified for the Service Establishment (SE) Number that appears in the MerId field in this Data Capture Request Message.
-     * Merchants, authorized Third Party Processors and software vendors must be certified for all currencies in which they plan to submit settlement data. Submitters that support Merchants in multiple countries must certify prior to using a particular currency code. A unique Merchant ID must be assigned to the submitter for each currency it supports.
+     * Description: his field contains the code of the currency used to execute the original transaction and corresponds to
+     * the currency used for the TransAmt field in this Data Capture Request Message.
+     * This field must also correspond to the currency specified for the Service Establishment (SE) Number that appears in
+     * the MerId field in this Data Capture Request Message.
+     * Merchants, authorized Third Party Processors and software vendors must be certified for all currencies in which
+     * they plan to submit settlement data.
+     * Submitters that support Merchants in multiple countries must certify prior to using a particular currency code.
+     * A unique Merchant ID must be assigned to the submitter for each currency it supports.
      * For more information on submitting multiple currencies and/or to schedule certification, contact your American Express representative.
      * For information on currencies approved for submission, refer to the American Express Global Codes & Information Guide.
-     * Note: The American Express currency code format supports both ISO alpha and numeric values. For example, the ISO alpha code for U.S. Dollars is “USD”, and the numeric code is “840”.
+     * Note: The American Express currency code format supports both ISO alpha and numeric values. For example, the ISO
+     * alpha code for U.S. Dollars is “USD”, and the numeric code is “840”.
      * <p>
      * Example: <TransCurrCd>840</TransCurrCd>
      */
-    protected String TransCurrCd;
+    protected String transCurrCd;
+
+
+    @Schema(description = "000000 -Debit(消费) 200000-credit(退货) ,在关闭批次前可以撤销 999999-撤销贷方  299999-撤销借方",
+            requiredMode = REQUIRED, example = "000000", minLength = 6, type = "Integer", maxLength = 6)
 
     /**
      * Data Length:6 bytes, fixed
@@ -167,7 +198,11 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * d. Reference number (RefNumber)
      * Example: <TransProcCd>000000</TransProcCd>
      */
-    protected String TransProcCd;
+    protected String transProcCd;
+
+
+    @Schema(description = "交易标识 (TID) 可以跟踪到唯一的一条交易 如果是授权交易填授权交易的TransId",
+            requiredMode = REQUIRED, example = "189116240721234", minLength = 15, type = "Integer", maxLength = 15)
 
     /**
      * Data Length: 15 bytes, fixed
@@ -185,8 +220,10 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * on the Data Capture Request Message.
      * Example: <TransId>189116240721234</TransId>
      */
-    protected String TransId;
+    protected String transId;
 
+    @Schema(description = "2 位 或者 3位 授权码 来自于授权交易 （美国加拿大地区为6位）",
+            requiredMode = REQUIRED, example = "123456", minLength = 2, type = "Integer", maxLength = 6)
 
     /**
      * Data Length: 2 bytes fixed or 6 bytes fixed
@@ -204,14 +241,20 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * For credit transactions which were not authorized, this field must not be present.
      * Example: <TransAprvCd>123456</TransAprvCd>
      */
-    protected String TransAprvCd;
+    protected String transAprvCd;
 
+    @Schema(description = "22域 卡片输入方式",
+            requiredMode = REQUIRED, type = "Object")
 
     /**
      * * Required Field: Yes
      */
-    protected PointOfServiceDataDto PointOfServiceData;
+    protected PointOfServiceDataDto pointOfServiceData;
 
+    @Schema(description = "safeKey 交易必填 ,其余交易可以不填 05 授权   06 Attempted 07 not authenticated 20 payment token data present only",
+            requiredMode = NOT_REQUIRED, example = "05", type = "Integer", maxLength = 2,
+            allowableValues = {"05", "06", "07", "20"}
+    )
 
     /**
      * Data Length:  2 bytes
@@ -235,8 +278,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * <p>
      * Example: <ElecComrceInd>05</ElecComrceInd>
      */
-    protected String ElecComrceInd;
+    protected String elecComrceInd;
 
+
+    @Schema(description = "授权的方式  01 = Cardmember signature on file  02 = Phone mail order 03 = Mail order 04 =Internet order 05 = Recurring billing ",
+            requiredMode = NOT_REQUIRED, example = "05", type = "Integer", maxLength = 2,
+            allowableValues = {"01", "02", "03", "04", "05"}
+    )
     /**
      * Data Length: 2 bytes, fixed
      * Data Element Type: Numeric
@@ -253,7 +301,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * 05 = Recurring billing
      * Example: <MediaCd>01</MediaCd>
      */
-    protected String MediaCd;
+    protected String mediaCd;
+
+
+    @Schema(description = "持卡人交易提交方法 01 = POS Terminal - American Express 02 = POS Terminal - Non-American Express 03 = Integrated POS System - Non-American Express 06 = PurchaseExpress 07 =Payflow 10 =Dial Payment System 13 =Automated Bill Payment Platform",
+            requiredMode = NOT_REQUIRED, example = "01", type = "Integer", maxLength = 2,
+            allowableValues = {"01", "02", "03", "06", "07", "10", "13"}
+    )
 
     /**
      * Data Length: 2 bytes, fixed
@@ -273,7 +327,12 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * contact your American Express representative
      * Example: <SubmMthdCd>01</SubmMthdCd>
      */
-    protected String SubmMthdCd;
+    protected String submMthdCd;
+
+    @Schema(description = "商户地址信息",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 15
+
+    )
 
     /**
      * Data Length:15 bytes, maximum
@@ -284,8 +343,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * and meaningful information in this optional field, as well as all required fields.
      * Example: <MerLocId>123456</MerLocId>
      */
-    protected String MerLocId;
+    protected String merLocId;
 
+
+    @Schema(description = "商户联系方式 email ,phone ==",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 40
+
+    )
     /**
      * Data Length: 40 bytes, maximum
      * Data Element Type: Alphanumeric, upper case
@@ -302,8 +366,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * See list of allowable special characters on page 16.
      * Example: <MerCtcInfoTxt>WWW.EXAMPLE.COM</MerCtcInfoTxt>
      */
-    protected String MerCtcInfoTxt;
+    protected String merCtcInfoTxt;
 
+
+    @Schema(description = "再标准结算交易外的补充信息 MatchKeyTypeCd存在  MatchKeyId 必须有数据",
+            requiredMode = NOT_REQUIRED, example = "01", type = "Integer", maxLength = 2
+
+    )
     /**
      * Data Length: 2 bytes, fixed
      * Data Element Type:  Numeric
@@ -320,8 +389,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * Example:
      * <MatchKeyTypeCd>01</MatchKeyTypeCd>
      */
-    protected String MatchKeyTypeCd;
+    protected String matchKeyTypeCd;
 
+
+    @Schema(description = "  和 MatchKeyTypeCd 一起使用",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 21
+
+    )
     /**
      * Data Length: 21 bytes, maximum
      * Data Element Type: Alphanumeric, upper case
@@ -333,8 +407,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * <p>
      * Example:<MatchKeyId>123456789012345678901</MatchKeyId>
      */
-    protected String MatchKeyId;
+    protected String matchKeyId;
 
+
+    @Schema(description = "  分期付款标识",
+            requiredMode = NOT_REQUIRED, example = "01", type = "Integer", maxLength = 4
+
+    )
 
     /**
      * Data Length: 4 bytes, fixed
@@ -355,7 +434,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * plans are required to demonstrate the ability to provide and transmit appropriate and meaningful information in this record.
      * Example :<DefPaymentPlan>0003</DefPaymentPlan>
      */
-    protected String DefPaymentPlan;
+    protected String defPaymentPlan;
+
+
+    @Schema(description = "  分期付款相关",
+            requiredMode = NOT_REQUIRED, example = "01", type = "Integer", maxLength = 4
+
+    )
 
     /**
      * Data Length: 2 bytes
@@ -372,7 +457,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * <p>
      * Example:<NumDefPayments>12</NumDefPayments>
      */
-    protected String NumDefPayments;
+    protected String numDefPayments;
+
+
+    @Schema(description = "  芯片数据",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 256
+
+    )
 
     /**
      * Data Length: 256 bytes, maximum
@@ -395,9 +486,13 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * Alphanumeric, hexadecimal, right justified, zero filled - The Application Transaction Counter (ATC) value “26” (decimal) would appear as hexadecimal characters “001A”.
      * Example:<EMVData>AGNS00019708807D8D7EF</EMVData>
      */
-    protected String EMVData;
+    protected String emvData;
 
 
+    @Schema(description = "  field 41  商户mcc ，必须和授权中一致",
+            requiredMode = REQUIRED, example = "01", type = "String", maxLength = 4, minLength = 4
+
+    )
     /**
      * Field:41
      * Data Length:4 bytes, fixed
@@ -411,25 +506,45 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * For a list of Merchant Category Codes (MCC), refer to the American Express Global Codes & Information Guide.
      * Example: <MerCtgyCd>1750</MerCtgyCd>
      */
-    protected String MerCtgyCd;
+    protected String merCtgyCd;
+
+
+    @Schema(description = " Payment Facilitators and Bill Payment Providers only 中必传   ",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 20
+
+    )
+
     /**
      * Field:42
      * Data Length: 20 bytes, maximum
      * Data Element Type: Alphanumeric
-     * Required Field: Yes - Payment Facilitators and Bill Payment Providers only No - All other submitters
-     * Description: This field contains the Seller ID, 20-byte, code that uniquely identifies a Payment Facilitators, OptBlue Participants or Bill Pay Provider’s specific seller or vendor.
-     * During certification, authorized Third Party Processors, OptBlue Participants, Bill Payment Providers and Vendors are required to demonstrate the ability to provide and transmit appropriate and meaningful information in this field.
+     * Required Field:
+     * Yes - Payment Facilitators and Bill Payment Providers only
+     * No - All other submitters
+     * Description: This field contains the Seller ID, 20-byte, code that uniquely identifies a Payment Facilitators,
+     * OptBlue Participants or Bill Pay Provider’s specific seller or vendor.
+     * During certification, authorized Third Party Processors, OptBlue Participants, Bill Payment Providers and Vendors are required
+     * to demonstrate the ability to provide and transmit appropriate and meaningful information in this field.
      * This should be the same unique value used to identify a particular Seller when requested in any other American Express message.
      * Example: <SellId>1234QR7890</SellId>
      */
-    protected String SellId;
+    protected String sellId;
 
+
+    @Schema(description = " 交易附加信息可以  ",
+            requiredMode = NOT_REQUIRED, example = "01", type = "String", maxLength = 20
+
+    )
     /**
      * Field 43
      */
-    protected CardTransDetailDto CardTransDetail;
+    protected CardTransDetailDto cardTransDetail;
 
-
+    @Schema(description = "如果特殊行业必须上送，其他可以不送。 如果是某种特殊行业必须获取相关认证 。如果是特殊行业要送附件的信息 否则结算失败   01 = Airline  04 = Insurance    05 = Auto Rental  " +
+            "   06 = Rail   11 = Lodging    13 = Communication Services  14 = Travel/Cruise   20 = Retail    22 = Entertainment/Ticketing ",
+            requiredMode = REQUIRED, example = "05", type = "Integer", maxLength = 2,
+            allowableValues = {"01", "04", "05", "06", "11", "13", "14", "20", "22"}
+    )
     /**
      * Field 48
      * Data Element Type: Data Length:2 bytes, fixed
@@ -454,16 +569,11 @@ public class DataCaptureRequestDto extends BaseSubmitRequestDto
      * 22 = Entertainment/Ticketing
      * Example: <TransAddCd>01</TransAddCd>
      */
-    protected String TransAddCd;
+    protected String transAddCd;
 
 
     @Tolerate
-    public DataCaptureRequestDto() {
+    protected DataCaptureRequestDto() {
     }
 
-//    @Override
-//    public String toXml() {
-//        String xml = XmlUtility.getInstance().getString(this);
-//        return "AuthorizationRequestParam=<?xml version=\"1.0\" encoding=\"utf-8\"?>" + XmlUtility.getInstance().formatXml(xml);
-//    }
 }

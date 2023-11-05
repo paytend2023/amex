@@ -1,22 +1,30 @@
 package com.paytend.amex.tx.dto.req;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Tolerate;
 
 /**
- * @author  XIXI
+ * @author XIXI
  */
 
 
 @Getter
 @Builder
 @Setter
+
+@Schema(name = "cardAcceptorDetailDto", description = "接受卡者结构体",
+        type = "object")
 public class CardAcceptorDetailDto {
     @Tolerate
     public CardAcceptorDetailDto() {
     }
+
+
+    @Schema(name = "cardAcptNm", description = "受卡者名称",
+            type = "string", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 38)
 
     /**
      * Data Length: 38 bytes, maximum
@@ -34,26 +42,30 @@ public class CardAcceptorDetailDto {
      *
      *
      */
-    String CardAcptNm;
+    protected String cardAcptNm;
+
+
+    @Schema(name = "cardAcptStreetNm", description = "受卡者街道名称",
+            type = "string", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 38)
+
     /**
      * Data Length: 38 bytes, maximum
      * Data Element Type: Alphanumeric, upper case
      * Required Field: Yes
      * Description:
      */
-    String CardAcptStreetNm;
+    protected String cardAcptStreetNm;
+
+
     /**
      * 21 bytes
      * Alphanumeric
      * Yes
      */
-    String CardAcptCityNm;
-    /**
-     * 3 bytes
-     * Alphanumeric
-     * Yes
-     */
-    String CardAcptCtryCd;
+    @Schema(name = "cardAcptCityNm", description = "受卡者城市", type = "string",
+            requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 21)
+
+    protected String cardAcptCityNm;
 
 
     /**
@@ -61,12 +73,27 @@ public class CardAcceptorDetailDto {
      * Alphanumeric
      * Yes
      */
-    String CardAcptRgnCd;
+
+    @Schema(name = "cardAcptCtryCd", description = "国家代码840 美国", type = "integer",
+            requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 3)
+    protected String cardAcptCtryCd;
+
+    @Schema(name = "cardAcptRgnCd",
+            description = "城市代码 可以查询     American Express Global Codes & Information Guide",
+            type = "string", requiredMode = Schema.RequiredMode.REQUIRED, maxLength = 3)
+
+    /**
+     * 3 bytes
+     * Alphanumeric
+     * Yes
+     */
+    protected String cardAcptRgnCd;
 
     /**
      * 15 bytes
      * Alphanumeric
      * No
      */
-    String CardAcptPostCd;
+    @Schema(name = "name", hidden = true)
+    protected String cardAcptPostCd;
 }
