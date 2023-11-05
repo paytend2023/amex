@@ -27,6 +27,7 @@ ds:
     authUrl: https://3ds.sinopayservice.com/GwThreeds/authentication/v1/auth
     resultUrl: https://3ds.sinopayservice.com/GwThreeds/challenge/v1/%s/result
     publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhaJHVeZdq6jLAFaK8YfIBeR5uNJ/E8OXbxNzjXBp0RmMLTspwIRrpB5tih4Dx/S7FK02Zq5eqY92pnKjCoXBys+YAPFHyZOJ2bMCaRmSqHKvsNZ5vKBNQ83e3s/u+BHYP/nUuM4PrPFOPutF8BlZo9hO7TATA6opgIsV6KfUPNCV5SpVg8xPB8Es7STg+UbMwRmI58SazdM+FBlhoccNyh9yVRgbt9qyDbtw7cb22mDo/PV7b9mp4ZTiNRrFM+3ehSlNwo7abV9b/jfOCCgYPHiuJAIzu6mUy/z4N9b/lbPY1UOgVQt66RBJywqJ3qvKIeezqrXhe/TzZHGJFm0QpQIDAQAB
+    resetUrl: false
     versionNotifyUrl: https://2b145863i9.yicp.fun/view/supportedVersionNotify/
     authNotifyUrl: https://2b145863i9.yicp.fun/ds/authNotify/
 

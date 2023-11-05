@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import java.util.Base64;
 
-//import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 /**

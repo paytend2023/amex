@@ -72,7 +72,7 @@
 
         function doAuto() {
             let form = $("#auth_form")
-            let url = contextPath + "/ds/doAuthentication"
+            let url = contextPath + "/ds/doAuthenticationT"
             let transId = $("#callback_form").find('input[name="threeDSServerTransID"]').val();
             let header = {}
             header.threeDsServerTransId = transId

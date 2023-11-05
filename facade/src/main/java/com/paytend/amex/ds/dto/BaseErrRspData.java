@@ -3,7 +3,6 @@ package com.paytend.amex.ds.dto;
 import lombok.Data;
 
 
-
 @Data
 /**
  * {
@@ -19,7 +18,7 @@ import lombok.Data;
 /**
  * @author xx
  */
-public  class BaseErrRspData {
+public class BaseErrRspData {
     String errorCode;
     String errorComponent;
     String errorDescription;

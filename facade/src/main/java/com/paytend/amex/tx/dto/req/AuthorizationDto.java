@@ -15,47 +15,6 @@ import lombok.experimental.Tolerate;
 @Getter
 @Setter
 @ToString(callSuper = true)
-//@JacksonXmlRootElement(localName = "CardTransaction")
-//@JsonPropertyOrder(
-//        {
-//                "MsgTypId",
-//                "CardNbr",
-//                "TransProcCd",
-//                "TransAmt",
-//                "XmitTs",
-//                "TransTs",
-//                "CardEffDt",
-//                "AcqInstCtryCd",
-//                "PointOfServiceData",
-//                "FuncCd",
-//                "MsgRsnCd",
-//                "MerCtgyCd",
-//                "AprvCdLgth",
-//                "TransId",
-//                "AcqInstIdCd",
-//                "FwdInstIdCd",
-//                "CardTrack2Data",
-//                "RtrvRefNbr",
-//                "MerTrmnlId",
-//                "CardAcceptorIdentification",
-//                "CardAcceptorDetail",
-//                "CardTrack1Data",
-//                "AdditionalDataNational",
-//                "AdditionalDataPrivate",
-//                "TransCurrCd",
-//                "PINDataTxt",
-//                "ICCSDataTxt",
-//                "NatlUseData",
-//                "SecureAuthenticationSafeKey",
-//                "ValidationInformation",
-//                "ValidationInformation63",
-//                "KeyMgmtData",
-//                "ExtendedKeyMngtData",
-//                "PaymentAcctData",
-//                "AcptEnvData"
-//        })
-
-
 @Schema(description = "授权结构体")
 public class AuthorizationDto extends BaseFields  {
 

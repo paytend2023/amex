@@ -1,12 +1,12 @@
 package com.paytend.amex.ds.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
 /**
  * @author XX
- * 
  */
 @Data
 @Builder
@@ -15,6 +15,7 @@ public class AutherizationDsReqDto {
     /**
      * 卡号	string(13-19)
      */
+    @Schema(description = "卡号")
     private String acctNumber;
 
     /**
@@ -24,16 +25,24 @@ public class AutherizationDsReqDto {
      * • 02 =Credit
      * • 03 = Debit
      */
+    @Schema(description = "账户类型")
     private String acctType;
 
     /**
      * 收单机构号(DS分配的)
      */
+    @Schema(description = "收单机构号")
     private String acquirerBIN;
+
+    @Schema(description = "收单机构指定的商户标识符")
     /**
      * 收单机构指定的商户标识符（收单行的商户号）
      */
     private String acquirerMerchantID;
+
+
+    @Schema(description = "地址匹配指示器")
+
     /**
      * 地址匹配指示器；
      * 可选值：
@@ -41,23 +50,38 @@ public class AutherizationDsReqDto {
      * • N=发货地址与账单地址不一致
      */
     private String addrMatch;
+
+
+    @Schema(description = "billAddrCity")
     /**
      * 持卡人账单地址城市
      */
-
     private String billAddrCity;
+
+
+    @Schema(description = "持卡人账单地址国家,ISO 3166的三位数字代码")
+
     /**
      * 持卡人账单地址国家,ISO 3166的三位数字代码
      */
     private String billAddrCountry;
+
+
+    @Schema(description = "持卡人账单地址第1行")
     /**
      * 持卡人账单地址第1行
      */
     private String billAddrLine1;
+
+    @Schema(description = "持卡人账单地址第2行")
     /**
      * 持卡人账单地址第2行
      */
     private String billAddrLine2;
+
+
+    @Schema(description = "持卡人账单地址第3行")
+
     /**
      * billAddrLine3
      */
@@ -70,10 +94,17 @@ public class AutherizationDsReqDto {
      * billAddrState
      */
     private String billAddrState;
+
+
+    @Schema(description = "浏览器接受头")
+
     /**
      * 浏览器接受头
      */
     private String browserAcceptHeader;
+
+
+    @Schema(description = "浏览器屏幕颜色深度")
     /**
      * 浏览器屏幕颜色深度
      * 可选值：
@@ -87,10 +118,18 @@ public class AutherizationDsReqDto {
      * • 48 = 48 bits
      */
     private String browserColorDepth;
+
+
+
+    @Schema(description = "浏览器IP地址 ，接收值为IPV4 /IPV6的地址")
     /**
      * 浏览器IP地址 ，接收值为IPV4 /IPV6的地址
      */
     private String browserIP;
+
+
+    @Schema(description = "启用浏览器Java")
+
     /**
      * 启用浏览器Js
      * 可选值：
@@ -99,19 +138,33 @@ public class AutherizationDsReqDto {
      */
     private String browserJavaEnabled;
 
+    @Schema(description = "启用浏览器Js")
     private String browserJavascriptEnabled;
+
+    @Schema(description = "browserLanguage")
+
     /**
      * 浏览器语言
      */
     private String browserLanguage;
+
+    @Schema(description = "浏览器屏幕高度")
+
     /**
      * 浏览器屏幕高度
      */
     private String browserScreenHeight;
+
+
+    @Schema(description = "浏览器屏幕宽度")
     /**
      * 浏览器屏幕宽度
      */
     private String browserScreenWidth;
+
+
+    @Schema(description = "浏览器时区,UTC和持卡人浏览器当地时间之间的时区偏移，以分钟为单位。")
+
     /**
      * 浏览器时区,UTC和持卡人浏览器当地时间之间的时区偏移，以分钟为单位。
      * 请注意，如果本地时区落后于UTC，则偏移量为正，如果超前则为负 。从getTimezoneOffset()方法返回的值
@@ -123,18 +176,33 @@ public class AutherizationDsReqDto {
      * •-300
      */
     private String browserTZ;
+
+
+    @Schema(description = "浏览器用户代理")
+
     /**
      * 浏览器用户代理
      */
     private String browserUserAgent;
+
+
+    @Schema(description = "卡到期日期 ，格式：YYMM")
+
+
     /**
      * 卡到期日期 ，格式：YYMM
      */
     private String cardExpiryDate;
+
+
+    @Schema(description = " 持卡人姓名")
     /**
      * 持卡人姓名
      */
     private String cardholderName;
+
+
+    @Schema(description = " 设备通道")
     /**
      * 设备通道 ,
      * 可选值：
@@ -143,38 +211,63 @@ public class AutherizationDsReqDto {
      * •03 3RI
      */
     private String deviceChannel;
+
+
+    @Schema(description = " 持卡人电子邮件地址")
     /**
      * 持卡人电子邮件地址
      */
     private String email;
+
+
+    @Schema(description = " 持卡人家庭电话号码")
     /**
      * 持卡人家庭电话号码
      */
     private String homePhone;
+
+
+    @Schema(description = " 持卡人手机号码")
+
     /**
      * 持卡人手机号码
      */
     private String mobilePhone;
+
+    @Schema(description = " 持卡人工作电话号码")
     /**
      * 持卡人工作电话号码
      */
     private String workPhone;
+
+    @Schema(description = " 商户类别代码")
     /**
      * 商户类别代码
      */
     private String mcc;
+
+
+    @Schema(description = "  商户国家代码 ,ISO3166-1标准中的三位数字国家代码")
     /**
      * 商户国家代码 ,ISO3166-1标准中的三位数字国家代码
      */
     private String merchantCountryCode;
+
+    @Schema(description = "  商户名称(与ISO 8583中定义的授权信息中使用的名称相同) ，即收单行商户名称，需与acquirerMerchantID对应")
     /**
      * 商户名称(与ISO 8583中定义的授权信息中使用的名称相同) ，即收单行商户名称，需与acquirerMerchantID对应
      */
     private String merchantName;
+
+
+    @Schema(description = " 商户风险指标")
+
     /**
      * 商户风险指标
      */
     private String merchantRiskIndicator;
+
+    @Schema(description = " 消息类别 01")
     /**
      * 消息类别
      * 可选值：
@@ -182,6 +275,7 @@ public class AutherizationDsReqDto {
      * • 02 = 非支付认证 （身份验证和账户确认）-NPA
      */
     private String messageCategory;
+
     /**
      * 消息扩展 ，此字段由每个卡组织设定的灵活参数
      */
@@ -273,7 +367,7 @@ public class AutherizationDsReqDto {
     private String threeDSCompInd;
 
     /**
-     *  	3DS请求者身份验证指示器
+     * 3DS请求者身份验证指示器
      * 可选值：
      * • 01=付款交易,
      * •02=循环交易,

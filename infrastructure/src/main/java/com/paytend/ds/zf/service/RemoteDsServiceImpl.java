@@ -46,6 +46,8 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     private final String versionNotifyUrl;
     private final String authNotifyUrl;
 
+    private final boolean resetUrl;
+
 
     public RemoteDsServiceImpl(ZfDsConfig config) {
         log.info("init config:{}", config);
@@ -56,15 +58,18 @@ public class RemoteDsServiceImpl implements RemoteDsService {
         this.resultUrl = config.getResultUrl();
         this.versionNotifyUrl = config.getVersionNotifyUrl();
         this.authNotifyUrl = config.getAuthNotifyUrl();
+        this.resetUrl = config.isResetUrl();
     }
 
 
-     @Override
-     public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
+    @Override
+    public AutherizationDsRspDto doAuthentication(AutherizationDsReqDto auth, String threeDsServerTransId) {
         Map<String, String> headers = new HashMap<>();
         headers.put("merNo", merNo);
         headers.put("threeDSServerTransID", Optional.of(threeDsServerTransId).get());
-        auth.setNotificationURL(createNotifyUrl(authNotifyUrl, auth.getNotificationURL()));
+        if (resetUrl) {
+            auth.setNotificationURL(createNotifyUrl(authNotifyUrl, auth.getNotificationURL()));
+        }
         return innerReq(auth, headers, AutherizationDsRspDto.class, authUrl);
     }
 
@@ -103,7 +108,9 @@ public class RemoteDsServiceImpl implements RemoteDsService {
     public SupportedVersionRspDto doSupportedVersion(@Validated SupportedVersionReqDto req) {
         assert req.getCardNo() != null;
         Map<String, String> headers = new HashMap<>();
-        req.setNotificationURL(createNotifyUrl(versionNotifyUrl, req.getCardNo()));
+        if (resetUrl) {
+            req.setNotificationURL(createNotifyUrl(versionNotifyUrl, req.getCardNo()));
+        }
         headers.put("merNo", merNo);
         return innerReq(req, headers, SupportedVersionRspDto.class, supportedVersionUrl);
     }
