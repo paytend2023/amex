@@ -142,7 +142,6 @@ public class DsController {
     @PostMapping(path = "doAuthentication", produces = APPLICATION_JSON_VALUE)
     public CommonRsp<AutherizationDsRspDto> doAuthentication(@RequestBody AutherizationDsReqDto auth,
                                                              @RequestHeader("threeDsServerTransId") String threeDsServerTransId) {
-        auth.setNotificationURL(auth.getAcctNumber());
         AutherizationDsRspDto dto = dsCommandService.doAuthentication(auth, threeDsServerTransId);
         return CommonRsp.OK(dto);
     }
