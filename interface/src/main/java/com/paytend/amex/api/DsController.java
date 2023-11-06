@@ -33,7 +33,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @author XX
  */
 @RestController
-@RequestMapping(value = "ds")
+@RequestMapping(value = "ds", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Tags({
         @Tag(name = "supportedVersion", description = "supportedVersion接口", externalDocs = @ExternalDocumentation(url = "https://doc.next-api.com/web/#/15/234")),
