@@ -364,4 +364,7 @@ public class AutherizationDsRspDto extends BaseErrRspData {
     @Schema(description =  "acs挑战流地址	")
     private String acsURL;
 
+    @Schema(description =  "授权交易需要的数据  和 eci 一起	")
+    private String authenticationValue;
+
 }
