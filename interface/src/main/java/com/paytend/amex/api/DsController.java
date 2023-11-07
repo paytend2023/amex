@@ -66,11 +66,9 @@ public class DsController {
         auth.setNotificationURL(auth.getAcctNumber());
         AutherizationDsRspDto dto = dsCommandService.doAuthentication(auth, threeDsServerTransId);
 
-
-
-        if(  StringUtils.isNotBlank(dto.getAuthenticationValue())){
-            dto.setAeskTransId( HexUtil.encodeHexStr(Base64.getDecoder().decode(dto.getAuthenticationValue())));
-         }
+        if (StringUtils.isNotBlank(dto.getAuthenticationValue())) {
+            dto.setAmexExpVerificationValTxt(HexUtil.encodeHexStr(Base64.getDecoder().decode(dto.getAuthenticationValue())));
+        }
         return CommonRsp.OK(dto);
     }
 
