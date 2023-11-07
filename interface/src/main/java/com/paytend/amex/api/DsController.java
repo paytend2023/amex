@@ -1,5 +1,6 @@
 package com.paytend.amex.api;
 
+import cn.hutool.core.util.HexUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytend.amex.api.vo.AuthNotifyVo;
@@ -19,11 +20,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+
 
 import java.util.Base64;
 
@@ -62,6 +65,12 @@ public class DsController {
                                                               @RequestHeader("threeDsServerTransId") String threeDsServerTransId) {
         auth.setNotificationURL(auth.getAcctNumber());
         AutherizationDsRspDto dto = dsCommandService.doAuthentication(auth, threeDsServerTransId);
+
+
+
+        if(  StringUtils.isNotBlank(dto.getAuthenticationValue())){
+            dto.setAeskTransId( HexUtil.encodeHexStr(Base64.getDecoder().decode(dto.getAuthenticationValue())));
+         }
         return CommonRsp.OK(dto);
     }
 

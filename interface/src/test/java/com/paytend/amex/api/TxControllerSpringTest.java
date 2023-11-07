@@ -1,5 +1,6 @@
 package com.paytend.amex.api;
 
+import cn.hutool.core.util.HexUtil;
 import com.paytend.amex.CommonRsp;
 import com.paytend.amex.tx.dto.req.AuthorizationDto;
 import com.paytend.amex.tx.dto.rsp.AuthorizationRspDto;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Base64;
 
 /**
  * @author Sunny
@@ -77,6 +79,7 @@ public class TxControllerSpringTest {
         System.out.println(time);
         LocalTime defaultTime = LocalTime.now(ZoneId.of("+08:00"));
         System.out.println(defaultTime);
+        System.out.println(HexUtil.encodeHexStr(Base64.getDecoder().decode("AAABBCIVBTJySIVVZhUFAAAAAAA=")));
     }
 
 

@@ -1,7 +1,10 @@
 package com.paytend.amex.ds.dto;
 
+import com.sun.deploy.util.StringUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -366,5 +369,8 @@ public class AutherizationDsRspDto extends BaseErrRspData {
 
     @Schema(description =  "授权交易需要的数据  和 eci 一起	")
     private String authenticationValue;
+
+    @Schema(description =  "authenticationValue base64解密后字符串")
+    private String aeskTransId;
 
 }
