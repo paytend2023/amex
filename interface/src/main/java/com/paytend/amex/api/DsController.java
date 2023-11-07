@@ -150,6 +150,9 @@ public class DsController {
     public CommonRsp<AutherizationDsRspDto> doAuthentication(@RequestBody AutherizationDsReqDto auth,
                                                              @RequestHeader("threeDsServerTransId") String threeDsServerTransId) {
         AutherizationDsRspDto dto = dsCommandService.doAuthentication(auth, threeDsServerTransId);
+        if (StringUtils.isNotBlank(dto.getAuthenticationValue())) {
+            dto.setAmexExpVerificationValTxt(HexUtil.encodeHexStr(Base64.getDecoder().decode(dto.getAuthenticationValue())));
+        }
         return CommonRsp.OK(dto);
     }
 
