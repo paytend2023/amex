@@ -5,6 +5,17 @@ logging:
 
 
 
+#ds:
+#  zf:
+#    merNo: 9075
+#    supportedVersionUrl: https://3ds.sinopayservice.com/GwThreeds/authentication/v1/supportedVersion
+#    authUrl: https://3ds.sinopayservice.com/GwThreeds/authentication/v1/auth
+#    resultUrl: https://3ds.sinopayservice.com/GwThreeds/challenge/v1/%s/result
+#    publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhaJHVeZdq6jLAFaK8YfIBeR5uNJ/E8OXbxNzjXBp0RmMLTspwIRrpB5tih4Dx/S7FK02Zq5eqY92pnKjCoXBys+YAPFHyZOJ2bMCaRmSqHKvsNZ5vKBNQ83e3s/u+BHYP/nUuM4PrPFOPutF8BlZo9hO7TATA6opgIsV6KfUPNCV5SpVg8xPB8Es7STg+UbMwRmI58SazdM+FBlhoccNyh9yVRgbt9qyDbtw7cb22mDo/PV7b9mp4ZTiNRrFM+3ehSlNwo7abV9b/jfOCCgYPHiuJAIzu6mUy/z4N9b/lbPY1UOgVQt66RBJywqJ3qvKIeezqrXhe/TzZHGJFm0QpQIDAQAB
+#    versionNotifyUrl: http://test.paytend.com:8080/view/supportedVersionNotify/
+#    authNotifyUrl: http://test.paytend.com:8080/ds/authNotify/
+
+#pro
 ds:
   zf:
     merNo: 9075
@@ -12,11 +23,24 @@ ds:
     authUrl: https://3ds.sinopayservice.com/GwThreeds/authentication/v1/auth
     resultUrl: https://3ds.sinopayservice.com/GwThreeds/challenge/v1/%s/result
     publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhaJHVeZdq6jLAFaK8YfIBeR5uNJ/E8OXbxNzjXBp0RmMLTspwIRrpB5tih4Dx/S7FK02Zq5eqY92pnKjCoXBys+YAPFHyZOJ2bMCaRmSqHKvsNZ5vKBNQ83e3s/u+BHYP/nUuM4PrPFOPutF8BlZo9hO7TATA6opgIsV6KfUPNCV5SpVg8xPB8Es7STg+UbMwRmI58SazdM+FBlhoccNyh9yVRgbt9qyDbtw7cb22mDo/PV7b9mp4ZTiNRrFM+3ehSlNwo7abV9b/jfOCCgYPHiuJAIzu6mUy/z4N9b/lbPY1UOgVQt66RBJywqJ3qvKIeezqrXhe/TzZHGJFm0QpQIDAQAB
+    resetUrl: false
     versionNotifyUrl: http://test.paytend.com:8080/view/supportedVersionNotify/
     authNotifyUrl: http://test.paytend.com:8080/ds/authNotify/
 
 
-
+amex:
+  merchant:
+    #    url: https://apigateway2sma-qa.americanexpress.com/merchant/v1/acquisitions/sellers
+    url: https://apigateway2sma.americanexpress.com/merchant/v1/acquisitions/sellers
+    #    client_key: EJ1BDPJ7yg9qfsboMfRtrhAbAlA8NGfz
+    #    client_secret: JMAowP1k7AlNOdoWnw5qNPfI8Po9hRCU
+    client_key: mxEF9jNvLtSZ8dxoK6BNNtHqOH3Aurvq
+    client_secret: Hv1AhE3O6g2GrQTUA3J19W77nS2A2jG3
+    #auth 测试环境
+  auth:
+    url: https://www359.americanexpress.com/IPPayments/inter/CardAuthorization.do
+    key_store: keystore.jks
+    passwd: 111111
 
 spring:
   jackson:
