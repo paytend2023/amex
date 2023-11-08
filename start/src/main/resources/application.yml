@@ -20,7 +20,7 @@ ds:
 
 spring:
   profiles:
-    active: devh
+    active: pro
   jackson:
     # 全局设置@JsonFormat的格式pattern
     date-format: yyyy-MM-dd HH:mm:ss
@@ -62,3 +62,16 @@ spring:
   web:
   contextPah:
 #    /3ds
+
+
+amex:
+  #QA 环境sm
+  merchant:
+    url: https://apigateway2sma-qa.americanexpress.com/merchant/v1/acquisitions/sellers
+    client_key: EJ1BDPJ7yg9qfsboMfRtrhAbAlA8NGfz
+    client_secret: JMAowP1k7AlNOdoWnw5qNPfI8Po9hRCU
+    #auth 测试环境
+  auth:
+    url: https://qwww318.americanexpress.com/IPPayments/inter/CardAuthorization.do
+    key_store: keystore.jks
+    passwd: 111111
