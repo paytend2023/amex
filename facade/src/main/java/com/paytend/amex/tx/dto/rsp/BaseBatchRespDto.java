@@ -18,11 +18,11 @@ public class BaseBatchRespDto {
      */
 
     @Schema(description = "同请求")
-    String version;
+    protected String version;
     @Schema(description = "同请求")
-    String merId;
+    protected String merId;
     @Schema(description = "同请求")
-    String merTrmnlId;
+    protected String merTrmnlId;
     @Schema(description = "同请求")
-    String batchID;
+    protected String batchID;
 }
