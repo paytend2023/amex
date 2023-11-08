@@ -1,10 +1,14 @@
 package com.paytend.amex.tx.dto.rsp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Sunny
  */
+@Getter
+@Setter
 public class BaseBatchRespDto {
     /**
      * <BatchAdminResponse>
