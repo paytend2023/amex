@@ -29,7 +29,8 @@ class AuthorizationDtoConvertTest {
             .MerCtgyCd("4111")
             .RtrvRefNbr(DateUtil.format(new Date(), "yyyyMMddHHmmss").substring(2))
             .MerTrmnlId("00000001")
-            .TransCurrCd("978");
+            .TransCurrCd("978").NatlUseData(NatlUseDataDto.builder().OriginalTransId("12121212121212").build())
+            ;
 
     PointOfServiceDataDto.PointOfServiceDataDtoBuilder
             pointOfServiceDataBuilder = PointOfServiceDataDto.builder()

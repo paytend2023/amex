@@ -11,9 +11,15 @@ package com.paytend.amex.tx.dto.req;
   </SessKeyDATAChkValTxt>
 </KeyMgmtData>
 */
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author  XIXI
  */
+@Getter
+@Setter
 public class KeyMgmtDataDto {
     String PrimIdCd;
     /**
