@@ -11,9 +11,15 @@ package com.paytend.amex.tx.req;
   </SessKeyDATAChkValTxt>
 </KeyMgmtData>
 */
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author  XIXI
  */
+@Setter
+@Getter
 public class KeyMgmtData {
     String PrimIdCd;
     /**

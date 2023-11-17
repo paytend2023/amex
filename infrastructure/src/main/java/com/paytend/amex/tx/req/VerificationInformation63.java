@@ -1,8 +1,13 @@
 package com.paytend.amex.tx.req;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author  XIXI
  */
+@Setter
+@Getter
 public class VerificationInformation63 {
     String FormNbr;
     String ServId;
